@@ -93,7 +93,9 @@ func Simplex(c []float64, A mat.Matrix, b []float64, tol float64, initialBasic [
 	return ans, x, err
 }
 
+// 注释：标准单纯形法（Simplex Method）求解线性规划（LP）问题的核心算法
 func simplex(initialBasic []int, c []float64, A mat.Matrix, b []float64, tol float64) (float64, []float64, []int, error) {
+	// 检查入参，无界或者不可行，那么报错
 	err := verifyInputs(initialBasic, c, A, b)
 	if err != nil {
 		if err == ErrUnbounded {
@@ -103,6 +105,7 @@ func simplex(initialBasic []int, c []float64, A mat.Matrix, b []float64, tol flo
 	}
 	m, n := A.Dims()
 
+	// 如果等式约束数量等于变量数，则直接求解线性系统。直接解线性方程组
 	if m == n {
 		// Problem is exactly constrained, perform a linear solve.
 		bVec := mat.NewVecDense(len(b), b)
@@ -147,6 +150,7 @@ func simplex(initialBasic []int, c []float64, A mat.Matrix, b []float64, tol flo
 	var ab *mat.Dense   // The subset of columns of A listed in basicIdxs.
 	var xb []float64    // The non-zero elements of x. xb = ab^-1 b
 
+	// 如果传入了初始可行解，那么使用
 	if initialBasic != nil {
 		// InitialBasic supplied. Panic if incorrect length or infeasible.
 		if len(initialBasic) != m {
@@ -163,6 +167,7 @@ func simplex(initialBasic []int, c []float64, A mat.Matrix, b []float64, tol flo
 		copy(basicIdxs, initialBasic)
 	} else {
 		// No initial basis supplied. Solve the PhaseI problem.
+		// 调用findInitialBasic 寻找初始可行解
 		basicIdxs, ab, xb, err = findInitialBasic(A, b)
 		if err != nil {
 			return math.NaN(), nil, nil, err
@@ -233,8 +238,24 @@ func simplex(initialBasic []int, c []float64, A mat.Matrix, b []float64, tol flo
 	// 5) If the new xe is 0 (that is, bhat_i == 0), then this location is at
 	// the intersection of several constraints. Use the Bland rule instead
 	// of the rule in step 4 to avoid cycling.
+	// 算法原理:
+	// 	1.  从一个初始可行顶点（basic feasible solution, BFS）出发
+	//	2.	计算非基本变量的 约减成本（reduced costs）
+	//	3.	选一个能降低目标函数的非基本变量进入基本集
+	//	4.	找到移动步长，确定哪个基本变量离开
+	//	5.	更新基本集和解向量
+	//	6.	重复直到没有非基本变量可以改善目标函数 → 最优解
+
+	// 迭代核心步骤：
+	// 1. 计算约减成本 r = cn - anᵀ * ab⁻ᵀ * cb
+	// 2. 如果所有 r >= -tol → 最优
+	// 3. 否则选择最负的 r[minIdx] 进入基本集
+	// 4. 计算步长 move，确定哪个基本变量离开
+	// 5. 更新基本/非基本变量，交换列
+	// 6. 更新 xb
 	for {
 		// Compute reduced costs -- r = cn - anᵀ ab¯ᵀ cb
+		// 计算约减成本:如果约减成本 ≥ 0，说明没有变量可以进入 → 当前解最优
 		var tmp mat.VecDense
 		err = tmp.SolveVec(ab.T(), cbVec)
 		if err != nil {

@@ -30,6 +30,7 @@ var (
 )
 
 // TriBanded is a triangular band matrix interface type.
+// 三角带状矩阵接口
 type TriBanded interface {
 	Banded
 
@@ -53,11 +54,13 @@ type TriBanded interface {
 // A RawTriBander can return a blas64.TriangularBand representation of the receiver.
 // Changes to the blas64.TriangularBand.Data slice will be reflected in the original
 // matrix, changes to the N, K, Stride, Uplo and Diag fields will not.
+// 是一个接口，提供对三角带状矩阵底层BLAS数据的直接访问。
 type RawTriBander interface {
 	RawTriBand() blas64.TriangularBand
 }
 
 // MutableTriBanded is a triangular band matrix interface type that allows
+// 是一个接口，表示可修改的三角带状矩阵，允许设置元素并保持三角带状结构。
 // elements to be altered.
 type MutableTriBanded interface {
 	TriBanded
@@ -77,6 +80,7 @@ var (
 // TransposeTriBand is a type for performing an implicit transpose of a TriBanded
 // matrix. It implements the TriBanded interface, returning values from the
 // transpose of the matrix within.
+// 是一个三角带状矩阵转置的包装类型，提供三角带状矩阵的转置视图而不复制数据。
 type TransposeTriBand struct {
 	TriBanded TriBanded
 }
@@ -154,6 +158,7 @@ func (t TransposeTriBand) UntransposeTriBand() TriBanded {
 }
 
 // TriBandDense represents a triangular band matrix in dense storage format.
+// 是一个三角带状稠密矩阵类型，高效存储三角带状结构的非零元素。
 type TriBandDense struct {
 	mat blas64.TriangularBand
 }

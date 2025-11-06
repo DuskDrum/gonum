@@ -28,6 +28,7 @@ const badSymTriangle = "mat: blas64.Symmetric not upper"
 
 // SymDense is a symmetric matrix that uses dense storage. SymDense
 // matrices are stored in the upper triangle.
+// 是一个对称稠密矩阵类型，只存储一半元素以节省内存。
 type SymDense struct {
 	mat blas64.Symmetric
 	cap int
@@ -35,18 +36,22 @@ type SymDense struct {
 
 // Symmetric represents a symmetric matrix (where the element at {i, j} equals
 // the element at {j, i}). Symmetric matrices are always square.
+// 对称矩阵
 type Symmetric interface {
 	Matrix
 	// SymmetricDim returns the number of rows/columns in the matrix.
+	// 返回矩阵维度
 	SymmetricDim() int
 }
 
 // A RawSymmetricer can return a view of itself as a BLAS Symmetric matrix.
+// 是一个接口，提供对对称矩阵底层BLAS数据的直接访问。
 type RawSymmetricer interface {
 	RawSymmetric() blas64.Symmetric
 }
 
 // A MutableSymmetric can set elements of a symmetric matrix.
+// 表示可修改的对称矩阵，允许设置元素并自动保持对称性。
 type MutableSymmetric interface {
 	Symmetric
 	SetSym(i, j int, v float64)

@@ -25,30 +25,36 @@ var (
 )
 
 // BandDense represents a band matrix in dense storage format.
+// 带状矩阵:带状矩阵是一种 稀疏矩阵（Sparse Matrix），其非零元素集中在主对角线附近，远离主对角线的元素大部分都是零。
 type BandDense struct {
 	mat blas64.Band
 }
 
 // Banded is a band matrix representation.
+// 用于 表示带状矩阵（Band Matrix）的通用能力。它提供对矩阵带宽信息的访问方法。
 type Banded interface {
 	Matrix
 	// Bandwidth returns the lower and upper bandwidth values for
 	// the matrix. The total bandwidth of the matrix is kl+ku+1.
+	// 对带状矩阵带宽的总览方法。它提供了 上带宽和下带宽的总和 或打包返回，方便在算法里使用
 	Bandwidth() (kl, ku int)
 
 	// TBand is the equivalent of the T() method in the Matrix
 	// interface but guarantees the transpose is of banded type.
+	// mat.Banded 或 mat.BandDense 的 TBand 方法是 返回矩阵的“转置带状矩阵视图” 的方法。 它的主要作用是提供一个矩阵的转置视图，同时保留带宽信息，而不拷贝底层数据。
 	TBand() Banded
 }
 
 // A RawBander can return a blas64.Band representation of the receiver.
 // Changes to the blas64.Band.Data slice will be reflected in the original
 // matrix, changes to the Rows, Cols, KL, KU and Stride fields will not.
+// 用于 访问带状矩阵（BandDense）底层数据数组和带宽信息。它主要用于 高效直接操作带状矩阵的原始存储，避免逐元素访问的开销。
 type RawBander interface {
 	RawBand() blas64.Band
 }
 
 // A MutableBanded can set elements of a band matrix.
+// 可以修改的带状矩阵
 type MutableBanded interface {
 	Banded
 
@@ -66,6 +72,7 @@ var (
 // TransposeBand is a type for performing an implicit transpose of a band
 // matrix. It implements the Banded interface, returning values from the
 // transpose of the matrix within.
+// 是一个带状矩阵转置的包装类型，提供带状矩阵的转置视图而不复制数据。
 type TransposeBand struct {
 	Banded Banded
 }
@@ -173,21 +180,25 @@ func NewDiagonalRect(r, c int, data []float64) *BandDense {
 }
 
 // Dims returns the number of rows and columns in the matrix.
+// 返回行列数
 func (b *BandDense) Dims() (r, c int) {
 	return b.mat.Rows, b.mat.Cols
 }
 
 // Bandwidth returns the upper and lower bandwidths of the matrix.
+// 返回下、上带宽
 func (b *BandDense) Bandwidth() (kl, ku int) {
 	return b.mat.KL, b.mat.KU
 }
 
 // T performs an implicit transpose by returning the receiver inside a Transpose.
+// 返回该矩阵的 转置视图
 func (b *BandDense) T() Matrix {
 	return Transpose{b}
 }
 
 // TBand performs an implicit transpose by returning the receiver inside a TransposeBand.
+// 返回该矩阵的 转置带状矩阵视图，且仍是 *BandDense 类型。
 func (b *BandDense) TBand() Banded {
 	return TransposeBand{b}
 }
@@ -195,6 +206,7 @@ func (b *BandDense) TBand() Banded {
 // RawBand returns the underlying blas64.Band used by the receiver.
 // Changes to elements in the receiver following the call will be reflected
 // in returned blas64.Band.
+// 返回底层原始数据切片（一般不常用）
 func (b *BandDense) RawBand() blas64.Band {
 	return b.mat
 }
@@ -202,12 +214,14 @@ func (b *BandDense) RawBand() blas64.Band {
 // SetRawBand sets the underlying blas64.Band used by the receiver.
 // Changes to elements in the receiver following the call will be reflected
 // in the input.
+// 用外部底层数据结构直接设置该矩阵的内容。
 func (b *BandDense) SetRawBand(mat blas64.Band) {
 	b.mat = mat
 }
 
 // IsEmpty returns whether the receiver is empty. Empty matrices can be the
 // receiver for size-restricted operations. The receiver can be zeroed using Reset.
+// 判断矩阵是否为空（即没有行或列）。
 func (b *BandDense) IsEmpty() bool {
 	return b.mat.Stride == 0
 }
@@ -217,6 +231,7 @@ func (b *BandDense) IsEmpty() bool {
 //
 // Reset should not be used when the matrix shares backing data.
 // See the Reseter interface for more information.
+// 重置矩阵为空矩阵。
 func (b *BandDense) Reset() {
 	b.mat.Rows = 0
 	b.mat.Cols = 0
@@ -227,6 +242,7 @@ func (b *BandDense) Reset() {
 }
 
 // DiagView returns the diagonal as a matrix backed by the original data.
+// 返回当前矩阵的 主对角线视图。
 func (b *BandDense) DiagView() Diagonal {
 	n := min(b.mat.Rows, b.mat.Cols)
 	return &DiagDense{
@@ -240,6 +256,7 @@ func (b *BandDense) DiagView() Diagonal {
 
 // DoNonZero calls the function fn for each of the non-zero elements of b. The function fn
 // takes a row/column index and the element value of b at (i, j).
+// 对所有非零元素执行回调函数 fn。
 func (b *BandDense) DoNonZero(fn func(i, j int, v float64)) {
 	for i := 0; i < min(b.mat.Rows, b.mat.Cols+b.mat.KL); i++ {
 		for j := max(0, i-b.mat.KL); j < min(b.mat.Cols, i+b.mat.KU+1); j++ {
@@ -253,6 +270,7 @@ func (b *BandDense) DoNonZero(fn func(i, j int, v float64)) {
 
 // DoRowNonZero calls the function fn for each of the non-zero elements of row i of b. The function fn
 // takes a row/column index and the element value of b at (i, j).
+// 对第 i 行的所有非零（带内）元素执行回调函数。
 func (b *BandDense) DoRowNonZero(i int, fn func(i, j int, v float64)) {
 	if i < 0 || b.mat.Rows <= i {
 		panic(ErrRowAccess)
@@ -267,6 +285,7 @@ func (b *BandDense) DoRowNonZero(i int, fn func(i, j int, v float64)) {
 
 // DoColNonZero calls the function fn for each of the non-zero elements of column j of b. The function fn
 // takes a row/column index and the element value of b at (i, j).
+// 对第 j 列的所有非零（带内）元素执行回调函数。
 func (b *BandDense) DoColNonZero(j int, fn func(i, j int, v float64)) {
 	if j < 0 || b.mat.Cols <= j {
 		panic(ErrColAccess)
@@ -282,6 +301,7 @@ func (b *BandDense) DoColNonZero(j int, fn func(i, j int, v float64)) {
 }
 
 // Zero sets all of the matrix elements to zero.
+// 将矩阵中所有带内元素清零（不改变尺寸和带宽）。
 func (b *BandDense) Zero() {
 	m := b.mat.Rows
 	kL := b.mat.KL
@@ -301,6 +321,7 @@ func (b *BandDense) Zero() {
 //
 // Norm will panic with ErrNormOrder if an illegal norm is specified and with
 // ErrZeroLength if the matrix has zero size.
+// 计算矩阵的某种范数。
 func (b *BandDense) Norm(norm float64) float64 {
 	if b.IsEmpty() {
 		panic(ErrZeroLength)
@@ -316,6 +337,7 @@ func (b *BandDense) Norm(norm float64) float64 {
 //
 // Trace will panic with ErrSquare if the matrix is not square and with
 // ErrZeroLength if the matrix has zero size.
+// 计算矩阵的迹（trace），即主对角线元素之和。
 func (b *BandDense) Trace() float64 {
 	r, c := b.Dims()
 	if r != c {
@@ -333,6 +355,7 @@ func (b *BandDense) Trace() float64 {
 }
 
 // MulVecTo computes B⋅x or Bᵀ⋅x storing the result into dst.
+// 执行 矩阵与向量相乘（可选转置）。
 func (b *BandDense) MulVecTo(dst *VecDense, trans bool, x Vector) {
 	m, n := b.Dims()
 	if trans {

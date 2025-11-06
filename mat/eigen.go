@@ -20,6 +20,7 @@ const (
 // It is a Symmetric matrix represented by its spectral factorization. Once
 // computed, this representation is useful for extracting eigenvalues and
 // eigenvector, but At is slow.
+// EigenSym 对称矩阵特征值分解。专门用于计算实对称矩阵的特征值和特征向量。
 type EigenSym struct {
 	vectorsComputed bool
 

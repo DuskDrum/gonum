@@ -14,6 +14,7 @@ import (
 	"gonum.org/v1/gonum/internal/asm/f64"
 )
 
+// 注释： 可以把它理解为 NumPy 的 numpy 对 float64 数组的操作工具集合，只不过是 Go 风格。
 const (
 	zeroLength   = "floats: zero length slice"
 	shortSpan    = "floats: slice length less than 2"
@@ -23,6 +24,7 @@ const (
 
 // Add adds, element-wise, the elements of s and dst, and stores the result in dst.
 // It panics if the argument lengths do not match.
+// element-wise 相加，dst[i] = a[i] + b[i]。 element-wise 是数值计算和数组/向量操作中的一个常用术语，它指的是 对应位置的元素逐一相加，而不是把整个数组当作一个整体去做运算。
 func Add(dst, s []float64) {
 	if len(dst) != len(s) {
 		panic(badDstLength)
@@ -147,6 +149,7 @@ func Count(f func(float64) bool, s []float64) int {
 // It panics if the argument lengths do not match.
 //
 // At the return of the function, dst[i] = s[i] * s[i-1] * s[i-2] * ...
+// 累积积
 func CumProd(dst, s []float64) []float64 {
 	if len(dst) != len(s) {
 		panic(badDstLength)
@@ -163,6 +166,7 @@ func CumProd(dst, s []float64) []float64 {
 // It panics if the argument lengths do not match.
 //
 // At the return of the function, dst[i] = s[i] + s[i-1] + s[i-2] + ...
+// 累积和，x[i] = x[0] + ... + x[i]
 func CumSum(dst, s []float64) []float64 {
 	if len(dst) != len(s) {
 		panic(badDstLength)
@@ -210,6 +214,7 @@ func Distance(s, t []float64, L float64) float64 {
 // Div performs element-wise division dst / s
 // and stores the value in dst.
 // It panics if the argument lengths do not match.
+// element-wise 相除
 func Div(dst, s []float64) {
 	if len(dst) != len(s) {
 		panic(badLength)
@@ -242,6 +247,7 @@ func Dot(s1, s2 []float64) float64 {
 
 // Equal returns true when the slices have equal lengths and
 // all elements are numerically identical.
+// 元素完全相等
 func Equal(s1, s2 []float64) bool {
 	if len(s1) != len(s2) {
 		return false
@@ -393,6 +399,7 @@ func LogSumExp(s []float64) float64 {
 }
 
 // Max returns the maximum value in the input slice. If the slice is empty, Max will panic.
+// 返回最大值
 func Max(s []float64) float64 {
 	return s[MaxIdx(s)]
 }
@@ -400,6 +407,7 @@ func Max(s []float64) float64 {
 // MaxIdx returns the index of the maximum value in the input slice. If several
 // entries have the maximum value, the first such index is returned.
 // It panics if s is zero length.
+// 返回最大值索引
 func MaxIdx(s []float64) int {
 	if len(s) == 0 {
 		panic(zeroLength)
@@ -420,6 +428,7 @@ func MaxIdx(s []float64) int {
 
 // Min returns the minimum value in the input slice.
 // It panics if s is zero length.
+// 返回最小值
 func Min(s []float64) float64 {
 	return s[MinIdx(s)]
 }
@@ -427,6 +436,7 @@ func Min(s []float64) float64 {
 // MinIdx returns the index of the minimum value in the input slice. If several
 // entries have the minimum value, the first such index is returned.
 // It panics if s is zero length.
+// 返回最小值索引
 func MinIdx(s []float64) int {
 	if len(s) == 0 {
 		panic(zeroLength)
@@ -448,6 +458,7 @@ func MinIdx(s []float64) int {
 // Mul performs element-wise multiplication between dst
 // and s and stores the value in dst.
 // It panics if the argument lengths do not match.
+// element-wise 相乘
 func Mul(dst, s []float64) {
 	if len(dst) != len(s) {
 		panic(badLength)
@@ -625,6 +636,7 @@ func Norm(s []float64, L float64) float64 {
 
 // Prod returns the product of the elements of the slice.
 // Returns 1 if len(s) = 0.
+// 所有元素相乘
 func Prod(s []float64) float64 {
 	prod := 1.0
 	for _, val := range s {
@@ -656,6 +668,7 @@ func Same(s, t []float64) bool {
 }
 
 // Scale multiplies every element in dst by the scalar c.
+// 每个元素乘以 alpha，就地修改
 func Scale(c float64, dst []float64) {
 	if len(dst) > 0 {
 		f64.ScalUnitary(c, dst)
@@ -739,6 +752,7 @@ func Span(dst []float64, l, u float64) []float64 {
 
 // Sub subtracts, element-wise, the elements of s from dst.
 // It panics if the argument lengths do not match.
+// element-wise 相减
 func Sub(dst, s []float64) {
 	if len(dst) != len(s) {
 		panic(badLength)
@@ -749,6 +763,7 @@ func Sub(dst, s []float64) {
 // SubTo subtracts, element-wise, the elements of t from s and
 // stores the result in dst.
 // It panics if the argument lengths do not match.
+// SubTo 是一个 逐元素相减并写入目标切片 的函数。它实现的是 element-wise subtraction（逐元素减法），类似于我们之前讲的 element-wise 相加，只不过是做减法
 func SubTo(dst, s, t []float64) []float64 {
 	if len(s) != len(t) {
 		panic(badLength)
@@ -761,6 +776,7 @@ func SubTo(dst, s, t []float64) []float64 {
 }
 
 // Sum returns the sum of the elements of the slice.
+// 所有元素求和
 func Sum(s []float64) float64 {
 	return f64.Sum(s)
 }

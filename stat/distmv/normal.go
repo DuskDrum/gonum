@@ -332,13 +332,16 @@ func NormalRand(dst, mean []float64, chol *mat.Cholesky, src rand.Source) []floa
 }
 
 // EigenSym is an eigendecomposition of a symmetric matrix.
+// EigenSym是对称矩阵特征分解。
 type EigenSym interface {
-	mat.Symmetric
+	mat.Symmetric // 继承对称矩阵接口
 	// RawValues returns all eigenvalues in ascending order. The returned slice
 	// must not be modified.
+	// 返回升序排列的所有特征值
 	RawValues() []float64
 	// RawQ returns an orthogonal matrix whose columns contain the eigenvectors.
 	// The returned matrix must not be modified.
+	// 返回特征向量组成的正交矩阵
 	RawQ() mat.Matrix
 }
 
@@ -348,6 +351,8 @@ type EigenSym interface {
 //
 // This is useful for filtering eigenvalues of positive semi-definite matrices
 // that are almost zero but negative due to rounding errors.
+// PositivePartEigenSym是一种特征Sym，它将给定特征分解中的任何负特征值设置为零，但在其他情况下返回值不变。
+// 这对于过滤几乎为零但由于舍入误差而为负的半正定矩阵的特征值非常有用。
 type PositivePartEigenSym struct {
 	ed   *mat.EigenSym
 	vals []float64

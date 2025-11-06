@@ -8,6 +8,8 @@ import "gonum.org/v1/gonum/mat"
 
 // Mat represents a 3×3 matrix. Useful for rotation matrices and such.
 // The zero value is usable as the 3×3 zero matrix.
+// spatial/r3.Mat 是 Gonum 的 spatial/r3 包中定义的一个 3×3 矩阵类型，
+// 专门用于三维空间（3D）几何计算，如旋转、缩放、坐标变换等。
 type Mat struct {
 	data *array
 }

@@ -83,6 +83,7 @@ type Symmetric struct {
 }
 
 // SymmetricBand represents a symmetric matrix using the band storage scheme.
+// BLAS中的对称带状矩阵的存储格式
 type SymmetricBand struct {
 	Uplo   blas.Uplo
 	N, K   int

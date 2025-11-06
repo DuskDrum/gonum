@@ -29,12 +29,14 @@ var (
 
 // TriDense represents an upper or lower triangular matrix in dense storage
 // format.
+// 三角稠密矩阵类型，专门存储上三角或下三角矩阵的元素。
 type TriDense struct {
 	mat blas64.Triangular
 	cap int
 }
 
 // Triangular represents a triangular matrix. Triangular matrices are always square.
+// 三角矩阵，上三角或者下三角
 type Triangular interface {
 	Matrix
 	// Triangle returns the number of rows/columns in the matrix and its
@@ -49,11 +51,13 @@ type Triangular interface {
 // A RawTriangular can return a blas64.Triangular representation of the receiver.
 // Changes to the blas64.Triangular.Data slice will be reflected in the original
 // matrix, changes to the N, Stride, Uplo and Diag fields will not.
+// 三角矩阵底层BLAS数据的直接访问
 type RawTriangular interface {
 	RawTriangular() blas64.Triangular
 }
 
 // A MutableTriangular can set elements of a triangular matrix.
+// 是一个接口，表示可修改的三角矩阵，允许设置元素并保持三角结构。
 type MutableTriangular interface {
 	Triangular
 	SetTri(i, j int, v float64)
@@ -68,6 +72,7 @@ var (
 // TransposeTri is a type for performing an implicit transpose of a Triangular
 // matrix. It implements the Triangular interface, returning values from the
 // transpose of the matrix within.
+// 是一个三角矩阵转置的包装类型，提供三角矩阵的转置视图而不复制数据。
 type TransposeTri struct {
 	Triangular Triangular
 }

@@ -393,6 +393,7 @@ func TestDiagFrom(t *testing.T) {
 
 // diagDenseViewer takes the view of the Diagonal with the underlying Diagonal
 // as the DiagDense type.
+// 用于访问对角矩阵或矩阵的对角部分。它通常用于 DiagDense 或其他矩阵类型，实现对角元素的高效读取。
 type diagDenseViewer interface {
 	Matrix
 	DiagView() Diagonal

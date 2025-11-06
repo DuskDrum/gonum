@@ -16,6 +16,7 @@ import (
 const badQR = "mat: invalid QR factorization"
 
 // QR is a type for creating and using the QR factorization of a matrix.
+// 用于进行QR分解（将矩阵分解为正交矩阵和上三角矩阵的乘积）。
 type QR struct {
 	qr   *Dense
 	q    *Dense

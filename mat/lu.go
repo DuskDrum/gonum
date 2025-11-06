@@ -32,6 +32,7 @@ const (
 // Note that this matrix representation is useful for certain operations, in
 // particular for solving linear systems of equations. It is very inefficient at
 // other operations, in particular At is slow.
+// LU分解. 将矩阵分解为下三角矩阵（L）和上三角矩阵（U）的乘积，通常包含行置换。
 type LU struct {
 	lu    *Dense
 	swaps []int

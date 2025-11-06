@@ -16,6 +16,7 @@ import (
 const badLQ = "mat: invalid LQ factorization"
 
 // LQ is a type for creating and using the LQ factorization of a matrix.
+// LQ分解。它将矩阵分解为下三角矩阵 L 和正交矩阵 Q 的乘积。L 是 m×n 下三角矩阵（或下梯形矩阵，当 m > n 时）; Q 是 n×n 正交矩阵（Q × Qᵀ = I）
 type LQ struct {
 	lq   *Dense
 	q    *Dense

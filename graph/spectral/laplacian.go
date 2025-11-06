@@ -12,6 +12,7 @@ import (
 )
 
 // Laplacian is a graph Laplacian matrix.
+// 计算图的拉普拉斯矩阵
 type Laplacian struct {
 	// Matrix holds the Laplacian matrix.
 	mat.Matrix

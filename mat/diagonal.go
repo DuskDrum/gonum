@@ -38,6 +38,7 @@ var (
 
 // Diagonal represents a diagonal matrix, that is a square matrix that only
 // has non-zero terms on the diagonal.
+// 对角矩阵接口
 type Diagonal interface {
 	Matrix
 	// Diag returns the number of rows/columns in the matrix.
@@ -54,12 +55,14 @@ type Diagonal interface {
 }
 
 // MutableDiagonal is a Diagonal matrix whose elements can be set.
+// 可修改的对角矩阵
 type MutableDiagonal interface {
 	Diagonal
 	SetDiag(i int, v float64)
 }
 
 // DiagDense represents a diagonal matrix in dense storage format.
+// 对角矩阵. 它只存储对角线元素，是一种内存高效的对角矩阵表示方式。
 type DiagDense struct {
 	mat blas64.Vector
 }

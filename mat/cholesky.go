@@ -44,6 +44,9 @@ var (
 // Cholesky methods may only be called on a value that has been successfully
 // initialized by a call to Factorize that has returned true. Calls to methods
 // of an unsuccessful Cholesky factorization will panic.
+// 表示矩阵的 Cholesky 分解 的结构体。
+// Cholesky 分解是线性代数中用于 正定矩阵（symmetric positive definite） 的分解方法，
+// 将一个矩阵分解成 下三角矩阵及其转置 或 上三角矩阵及其转置
 type Cholesky struct {
 	// The chol pointer must never be retained as a pointer outside the Cholesky
 	// struct, either by returning chol outside the struct or by setting it to
@@ -737,6 +740,7 @@ func (c *Cholesky) valid() bool {
 // BandCholesky methods may only be called on a value that has been successfully
 // initialized by a call to Factorize that has returned true. Calls to methods
 // of an unsuccessful Cholesky factorization will panic.
+// 专门用于带状对称正定矩阵的 Cholesky 分解的结构。什么是Cholesky 分解
 type BandCholesky struct {
 	// The chol pointer must never be retained as a pointer outside the Cholesky
 	// struct, either by returning chol outside the struct or by setting it to
@@ -903,6 +907,7 @@ func (ch *BandCholesky) Bandwidth() (kl, ku int) {
 
 // SymBand returns the number of rows/columns in the matrix, and the size of the
 // bandwidth. The total bandwidth of the matrix is 2*k+1.
+// 获取 Cholesky 分解对应的原始对称带状矩阵的带宽信息。
 func (ch *BandCholesky) SymBand() (n, k int) {
 	n, k, _ = ch.chol.TriBand()
 	return n, k
@@ -954,6 +959,7 @@ func (ch *BandCholesky) valid() bool {
 //
 // If the matrix A is certainly positive definite, then the unpivoted Cholesky
 // could be more efficient, especially for smaller matrices.
+// 是一种带主元选择的Cholesky分解，用于处理接近奇异的对称正定矩阵。
 type PivotedCholesky struct {
 	chol          *TriDense // The factor U
 	piv, pivTrans []int     // The permutation matrices P and Pᵀ

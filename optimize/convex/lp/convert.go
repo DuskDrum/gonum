@@ -31,6 +31,9 @@ import (
 //	         x >= 0
 //
 // If there are no constraints of the given type, the inputs may be nil.
+// 注释： 这是线性规划中的一个核心工具行数。线性规划中有两个形式，1是通用形式，2是标准形式。这个方法的左右就是把通用形式转为标准形式
+// 通用形式是 带不等式、等式约束的线性规划问题
+// 标准形式是 只有等式约束 + 非负变量的标准形式问题
 func Convert(c []float64, g mat.Matrix, h []float64, a mat.Matrix, b []float64) (cNew []float64, aNew *mat.Dense, bNew []float64) {
 	nVar := len(c)
 	nIneq := len(h)
@@ -137,5 +140,6 @@ func Convert(c []float64, g mat.Matrix, h []float64, a mat.Matrix, b []float64) 
 		aNew.Slice(nIneq, nIneq+nEq, 0, nVar).(*mat.Dense).Copy(a)
 		aNew.Slice(nIneq, nIneq+nEq, nVar, 2*nVar).(*mat.Dense).Scale(-1, a)
 	}
+	// 注释 cNew：新的目标系数 [c, -c, 0]，aNew:新的等式约束矩阵，bNew:新的等式右端向量 [h; b]
 	return cNew, aNew, bNew
 }

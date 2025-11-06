@@ -32,6 +32,7 @@ var (
 )
 
 // Dense is a dense matrix representation.
+// 稠密矩阵
 type Dense struct {
 	mat blas64.General
 
@@ -46,6 +47,8 @@ type Dense struct {
 //
 // The data must be arranged in row-major order, i.e. the (i*c + j)-th
 // element in the data slice is the {i, j}-th element in the matrix.
+// mat.NewDense 是 创建矩阵（Matrix）对象 的核心方法，它属于 mat 包，用于生成一个 浮点型矩阵（Dense）实例
+// mat.NewDense 是 Gonum 中 创建矩阵 Dense 实例的方法，底层存储 []float64，按行优先排列，支持矩阵操作和线性代数计算，是 Gonum 矩阵操作的核心入口。
 func NewDense(r, c int, data []float64) *Dense {
 	if r <= 0 || c <= 0 {
 		if r == 0 || c == 0 {

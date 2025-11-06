@@ -28,24 +28,29 @@ var (
 )
 
 // SymBandDense represents a symmetric band matrix in dense storage format.
+// 对称带状稠密矩阵
 type SymBandDense struct {
 	mat blas64.SymmetricBand
 }
 
 // SymBanded is a symmetric band matrix interface type.
+// 表示对称带状矩阵，结合了对称性和带状稀疏结构。
 type SymBanded interface {
 	Banded
 
 	// SymmetricDim returns the number of rows/columns in the matrix.
+	//将矩阵数据复制到 SymBandDense 结构中
 	SymmetricDim() int
 
 	// SymBand returns the number of rows/columns in the matrix, and the size of
 	// the bandwidth.
+	// 返回矩阵的维度 n 和半带宽 k
 	SymBand() (n, k int)
 }
 
 // MutableSymBanded is a symmetric band matrix interface type that allows elements
 // to be altered.
+// 是一个接口，表示可修改的对称带状矩阵，允许设置元素并自动保持对称带状结构。
 type MutableSymBanded interface {
 	SymBanded
 	SetSymBand(i, j int, v float64)
@@ -54,6 +59,7 @@ type MutableSymBanded interface {
 // A RawSymBander can return a blas64.SymmetricBand representation of the receiver.
 // Changes to the blas64.SymmetricBand.Data slice will be reflected in the original
 // matrix, changes to the N, K, Stride and Uplo fields will not.
+// 提供对对称带状矩阵底层BLAS数据的直接访问。
 type RawSymBander interface {
 	RawSymBand() blas64.SymmetricBand
 }

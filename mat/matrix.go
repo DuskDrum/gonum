@@ -14,24 +14,33 @@ import (
 )
 
 // Matrix is the basic matrix interface type.
+// mat.Matrix 是 矩阵接口。
 type Matrix interface {
 	// Dims returns the dimensions of a Matrix.
+	// 返回矩阵行数和列数
 	Dims() (r, c int)
 
 	// At returns the value of a matrix element at row i, column j.
 	// It will panic if i or j are out of bounds for the matrix.
+	// 返回矩阵指定元素的值
 	At(i, j int) float64
 
 	// T returns the transpose of the Matrix. Whether T returns a copy of the
 	// underlying data is implementation dependent.
 	// This method may be implemented using the Transpose type, which
 	// provides an implicit matrix transpose.
+	// 返回矩阵的转置
 	T() Matrix
 }
 
 // allMatrix represents the extra set of methods that all mat Matrix types
 // should satisfy. This is used to enforce compile-time consistency between the
 // Dense types, especially helpful when adding new features.
+// allMatrix 是一个 内部接口组合
+// 注意：allMatrix 前面没有大写字母，所以它是 包内可见（unexported），外部不能直接使用。
+//   - Matrix：提供 Dims(), At(i,j), T() 等基本矩阵方法
+//   - Normer：提供 Norm() 方法计算矩阵范数
+//   - Tracer：提供 Trace() 方法计算迹
 type allMatrix interface {
 	Reseter
 	IsEmpty() bool
@@ -41,6 +50,7 @@ type allMatrix interface {
 // denseMatrix represents the extra set of methods that all Dense Matrix types
 // should satisfy. This is used to enforce compile-time consistency between the
 // Dense types, especially helpful when adding new features.
+// 表示可以被视作 只读稠密矩阵（Dense Matrix） 的矩阵类型。
 type denseMatrix interface {
 	DiagView() Diagonal
 	Tracer
@@ -54,6 +64,7 @@ var (
 
 // Transpose is a type for performing an implicit matrix transpose. It implements
 // the Matrix interface, returning values from the transpose of the matrix within.
+// 矩阵转置的包装类型，用于延迟计算矩阵的转置而不复制数据。
 type Transpose struct {
 	Matrix Matrix
 }
@@ -83,6 +94,7 @@ func (t Transpose) Untranspose() Matrix {
 }
 
 // Untransposer is a type that can undo an implicit transpose.
+// 是一个接口，用于获取矩阵的原始形式（如果当前是转置视图则返回原矩阵）。
 type Untransposer interface {
 	// Note: This interface is needed to unify all of the Transpose types. In
 	// the mat methods, we need to test if the Matrix has been implicitly
@@ -95,12 +107,14 @@ type Untransposer interface {
 }
 
 // UntransposeBander is a type that can undo an implicit band transpose.
+// 是一个接口，用于获取带状矩阵的原始形式（如果当前是转置视图则返回原带状矩阵）。
 type UntransposeBander interface {
 	// Untranspose returns the underlying Banded stored for the implicit transpose.
 	UntransposeBand() Banded
 }
 
 // UntransposeTrier is a type that can undo an implicit triangular transpose.
+// mat.UntransposeTrier 是一个接口，用于获取三角矩阵的原始形式（如果当前是转置视图则返回原三角矩阵）。
 type UntransposeTrier interface {
 	// Untranspose returns the underlying Triangular stored for the implicit transpose.
 	UntransposeTri() Triangular
@@ -108,12 +122,14 @@ type UntransposeTrier interface {
 
 // UntransposeTriBander is a type that can undo an implicit triangular banded
 // transpose.
+// 是一个接口，用于获取三角带状矩阵的原始形式（如果当前是转置视图则返回原三角带状矩阵）。
 type UntransposeTriBander interface {
 	// Untranspose returns the underlying Triangular stored for the implicit transpose.
 	UntransposeTriBand() TriBanded
 }
 
 // Mutable is a matrix interface type that allows elements to be altered.
+// 可修改的矩阵
 type Mutable interface {
 	// Set alters the matrix element at row i, column j to v.
 	// It will panic if i or j are out of bounds for the matrix.
@@ -124,18 +140,22 @@ type Mutable interface {
 
 // A RowViewer can return a Vector reflecting a row that is backed by the matrix
 // data. The Vector returned will have length equal to the number of columns.
+// mat.RowViewer 是一个接口，用于获取矩阵行的向量视图而不复制数据。
 type RowViewer interface {
 	RowView(i int) Vector
 }
 
 // A RawRowViewer can return a slice of float64 reflecting a row that is backed by the matrix
 // data.
+// 是一个接口，提供对矩阵行底层数据的直接访问。
 type RawRowViewer interface {
 	RawRowView(i int) []float64
 }
 
 // A ColViewer can return a Vector reflecting a column that is backed by the matrix
 // data. The Vector returned will have length equal to the number of rows.
+//
+//	是一个接口，用于获取矩阵列的向量视图而不复制数据。
 type ColViewer interface {
 	ColView(j int) Vector
 }
@@ -149,6 +169,7 @@ type RawColViewer interface {
 // A ClonerFrom can make a copy of a into the receiver, overwriting the previous value of the
 // receiver. The clone operation does not make any restriction on shape and will not cause
 // shadowing.
+// 可克隆的
 type ClonerFrom interface {
 	CloneFrom(a Matrix)
 }
@@ -160,6 +181,7 @@ type ClonerFrom interface {
 // If the matrix is a view, using Reset may result in data corruption in elements outside
 // the view. Similarly, if the matrix shares backing data with another variable, using
 // Reset may lead to unexpected changes in data values.
+// 表示 矩阵或向量可以被重置 的能力
 type Reseter interface {
 	Reset()
 }
@@ -170,6 +192,7 @@ type Reseter interface {
 // Copy will copy from a source that aliases the receiver unless the source is transposed;
 // an aliasing transpose copy will panic with the exception for a special case when
 // the source data has a unitary increment or stride.
+// 是一个接口，定义了从源矩阵复制数据到当前矩阵的方法。
 type Copier interface {
 	Copy(a Matrix) (r, c int)
 }
@@ -178,6 +201,7 @@ type Copier interface {
 // Growing beyond the size given by the Caps method will result in the allocation of a new
 // matrix and copying of the elements. If Grow is called with negative increments it will
 // panic with ErrIndexOutOfRange.
+// 是一个接口，定义了扩展矩阵容量的方法，允许矩阵动态增长。
 type Grower interface {
 	Caps() (r, c int)
 	Grow(r, c int) Matrix
@@ -185,36 +209,42 @@ type Grower interface {
 
 // A RawMatrixSetter can set the underlying blas64.General used by the receiver. There is no restriction
 // on the shape of the receiver. Changes to the receiver's elements will be reflected in the blas64.General.Data.
+// 是一个接口，允许直接设置矩阵的底层BLAS数据。
 type RawMatrixSetter interface {
 	SetRawMatrix(a blas64.General)
 }
 
 // A RawMatrixer can return a blas64.General representation of the receiver. Changes to the blas64.General.Data
 // slice will be reflected in the original matrix, changes to the Rows, Cols and Stride fields will not.
+// 原始数据
 type RawMatrixer interface {
 	RawMatrix() blas64.General
 }
 
 // A RawVectorer can return a blas64.Vector representation of the receiver. Changes to the blas64.Vector.Data
 // slice will be reflected in the original matrix, changes to the Inc field will not.
+// 是一个接口，提供对向量底层BLAS数据的直接访问。
 type RawVectorer interface {
 	RawVector() blas64.Vector
 }
 
 // A NonZeroDoer can call a function for each non-zero element of the receiver.
 // The parameters of the function are the element indices and its value.
+// 高效遍历矩阵的 非零元素
 type NonZeroDoer interface {
 	DoNonZero(func(i, j int, v float64))
 }
 
 // A RowNonZeroDoer can call a function for each non-zero element of a row of the receiver.
 // The parameters of the function are the element indices and its value.
+// 为 稀疏矩阵或带状矩阵 提供快速行遍历。专门用于高效地遍历矩阵 某一行的非零元素
 type RowNonZeroDoer interface {
 	DoRowNonZero(i int, fn func(i, j int, v float64))
 }
 
 // A ColNonZeroDoer can call a function for each non-zero element of a column of the receiver.
 // The parameters of the function are the element indices and its value.
+// 为 稀疏矩阵或带状矩阵 提供快速列遍历。专门用于高效地遍历矩阵 某一列的非零元素。
 type ColNonZeroDoer interface {
 	DoColNonZero(j int, fn func(i, j int, v float64))
 }
@@ -226,7 +256,11 @@ type ColNonZeroDoer interface {
 // If dst is empty, SolveTo will resize it to the correct size, otherwise it
 // must have the correct size. Individual implementations may impose other
 // restrictions on the input parameters, for example that A is a square matrix.
+// 可以求解线性系统的类型
+// SolveToer可以求解线性系统A⋅X=B或Aᵀ⋅X=B，其中A是接收器表示的矩阵，B是给定的矩阵，将结果存储到dst中。
+// 如果dst为空，SolveTo会将其调整为正确的大小，否则它必须具有正确的大小。个别实现可能会对输入参数施加其他限制，例如A是方阵。
 type SolveToer interface {
+	// SolveTo 表示求解结果将写入到指定的目标矩阵中，而不是返回一个新的矩阵。
 	SolveTo(dst *Dense, trans bool, b Matrix) error
 }
 
@@ -772,6 +806,8 @@ func Min(a Matrix) float64 {
 //	1 - The maximum absolute column sum
 //	2 - The Frobenius norm, the square root of the sum of the squares of the elements
 //	Inf - The maximum absolute row sum
+//
+// 用来统一表示矩阵或向量可以计算范数（norm）的能力。
 type Normer interface {
 	Norm(norm float64) float64
 }

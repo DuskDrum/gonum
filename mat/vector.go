@@ -23,6 +23,7 @@ var (
 )
 
 // Vector is a vector.
+// 向量
 type Vector interface {
 	Matrix
 	AtVec(int) float64
@@ -30,6 +31,7 @@ type Vector interface {
 }
 
 // A MutableVector can set elements of a vector.
+// 是一个接口，表示可修改的向量，允许设置向量元素的值。
 type MutableVector interface {
 	Vector
 	SetVec(i int, v float64)
@@ -38,6 +40,7 @@ type MutableVector interface {
 // TransposeVec is a type for performing an implicit transpose of a Vector.
 // It implements the Vector interface, returning values from the transpose
 // of the vector within.
+// 是一个向量转置的包装类型，将列向量视为行向量而不复制数据。
 type TransposeVec struct {
 	Vector Vector
 }
@@ -84,6 +87,8 @@ func (t TransposeVec) UntransposeVec() Vector {
 }
 
 // VecDense represents a column vector.
+// 表示向量（列向量）的核心数据结构.属于 mat 包（矩阵与向量操作包）。它专门用来存储和操作 float64 类型的向量。下面我给你详细讲清楚。
+// 也可以理解成 VecDense 是一个 长度为 n 的连续 float64 切片，并封装了各种向量操作方法。
 type VecDense struct {
 	mat blas64.Vector
 	// A BLAS vector can have a negative increment, but allowing this
@@ -96,6 +101,7 @@ type VecDense struct {
 // used as the backing slice, and changes to the elements of the returned VecDense
 // will be reflected in data. If neither of these is true, NewVecDense will panic.
 // NewVecDense will panic if n is zero.
+// mat.VecDense 是 Gonum 中 专门表示浮点向量的结构体，底层是 []float64，支持向量的 索引、加减、点积、缩放、范数等操作，可以与矩阵兼容使用，适合数值计算和优化算法。
 func NewVecDense(n int, data []float64) *VecDense {
 	if n <= 0 {
 		if n == 0 {

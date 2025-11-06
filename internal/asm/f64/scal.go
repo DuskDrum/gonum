@@ -12,6 +12,8 @@ package f64
 //	for i := range x {
 //		x[i] *= alpha
 //	}
+//
+// 每个元素乘以 alpha，就地修改
 func ScalUnitary(alpha float64, x []float64) {
 	for i := range x {
 		x[i] *= alpha

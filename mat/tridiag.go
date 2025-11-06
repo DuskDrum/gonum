@@ -26,11 +26,13 @@ var (
 // A RawTridiagonaler can return a lapack64.Tridiagonal representation of the
 // receiver. Changes to the elements of DL, D, DU in lapack64.Tridiagonal will
 // be reflected in the original matrix, changes to the N field will not.
+// 是一个接口，提供对三对角矩阵底层BLAS数据的直接访问。
 type RawTridiagonaler interface {
 	RawTridiagonal() lapack64.Tridiagonal
 }
 
 // Tridiag represents a tridiagonal matrix by its three diagonals.
+// 是用于创建和操作三对角矩阵的类型，这种矩阵只有主对角线和相邻的两条对角线有非零元素。
 type Tridiag struct {
 	mat lapack64.Tridiagonal
 }
