@@ -48,12 +48,16 @@ type Location struct {
 }
 
 // Method is a type which can search for an optimum of an objective function.
+// 在 Gonum 的 optimize 包中，Method 接口是核心接口之一，它定义了优化方法的统一行为，用于搜索函数的最优值（最小或最大值）。
+// 它不仅描述了优化算法本身，还规范了如何与函数评估、并行任务和迭代控制交互。下面我详细解析它的各个方法和作用。
 type Method interface {
 	// Init initializes the method for optimization. The inputs are
 	// the problem dimension and number of available concurrent tasks.
 	//
 	// Init returns the number of concurrent processes to use, which must be
 	// less than or equal to tasks.
+	// 初始化优化方法，准备算法内部状态。
+	// 告诉优化器该方法能并行执行的最大任务数（concurrent），以支持多线程或并发函数评估。
 	Init(dim, tasks int) (concurrent int)
 	// Run runs an optimization. The method sends Tasks on
 	// the operation channel (for performing function evaluations, major
@@ -100,11 +104,16 @@ type Method interface {
 	//
 	// The operation and result tasks are guaranteed to have a buffer length
 	// equal to the return from Init.
+	// 核心方法，执行优化算法的迭代过程。
+	// 与优化器通过 任务通道 交互，发送计算请求（operation）并接收计算结果（result）。
+	// 允许算法与函数评估解耦，同时支持并行计算。
 	Run(operation chan<- Task, result <-chan Task, tasks []Task)
 	// Uses checks if the Method is suited to the optimization problem. The
 	// input is the available functions in Problem to call, and the returns are
 	// the functions which may be used and an error if there is a mismatch
 	// between the Problem and the Method's capabilities.
+	// 检查当前方法是否适用于给定问题。
+	// 根据问题提供的可用函数信息（如是否提供梯度、Hessian），返回算法能使用的功能或错误。
 	Uses(has Available) (uses Available, err error)
 }
 

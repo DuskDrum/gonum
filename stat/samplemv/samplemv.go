@@ -27,6 +27,8 @@ var (
 // Sampler generates a batch of samples according to the rule specified by the
 // implementing type. The number of samples generated is equal to rows(batch),
 // and the samples are stored in-place into the input.
+// stat/samplemv（多维采样）包。 针对多维（矩阵形式）样本
+// 从多维分布生成一批样本
 type Sampler interface {
 	Sample(batch *mat.Dense)
 }
@@ -36,12 +38,14 @@ type Sampler interface {
 // generated is equal to rows(batch), and the samples and weights
 // are stored in-place into the inputs. The length of weights must equal
 // rows(batch), otherwise SampleWeighted will panic.
+// 用于 从多维分布生成带权重的样本，适合重要性采样、拒绝采样等算法
 type WeightedSampler interface {
 	SampleWeighted(batch *mat.Dense, weights []float64)
 }
 
 // SampleUniformWeighted wraps a Sampler type to create a WeightedSampler where all
 // weights are equal.
+// SampleUniformWeighted 结构体用于生成多维均匀分布样本矩阵，并为每个样本分配相等的权重。
 type SampleUniformWeighted struct {
 	Sampler
 }
@@ -68,6 +72,7 @@ func (w SampleUniformWeighted) SampleWeighted(batch *mat.Dense, weights []float6
 // spaced bins and guarantees that one sample is generated per bin. Within each bin,
 // the location is randomly sampled. The distmv.NewUnitUniform function can be used
 // for easy sampling from the unit hypercube.
+// LatinHypercube 结构体用于在多维空间中生成覆盖性均匀的拉丁超立方采样点矩阵。
 type LatinHypercube struct {
 	Q   distmv.Quantiler
 	Src rand.Source
@@ -117,6 +122,7 @@ func latinHypercube(batch *mat.Dense, q distmv.Quantiler, src rand.Source) {
 // a good proposal distribution will bound this sampling weight. This implies the
 // support of q(x) should be at least as broad as p(x), and q(x) should be "fatter tailed"
 // than p(x).
+// Importance 结构体用于通过多维重要性采样生成样本矩阵并分配相应权重。
 type Importance struct {
 	Target   distmv.LogProber
 	Proposal distmv.RandLogProber
@@ -167,6 +173,7 @@ var ErrRejection = errors.New("rejection: acceptance ratio above 1")
 // a value that is proportional to the probability (logprob + constant). This is
 // useful for cases where the probability distribution is only known up to a normalization
 // constant.
+// Rejection 结构体用于通过多维拒绝采样方法生成符合目标分布的样本矩阵。
 type Rejection struct {
 	C        float64
 	Target   distmv.LogProber
@@ -242,6 +249,7 @@ func rejection(batch *mat.Dense, target distmv.LogProber, proposal distmv.RandLo
 
 // IID generates a set of independently and identically distributed samples from
 // the input distribution.
+// IID 结构体用于生成多维独立同分布（IID）样本矩阵，每行表示一个样本。
 type IID struct {
 	Dist distmv.Rander
 }

@@ -21,6 +21,7 @@ import (
 // It is a special case of the Gamma distribution, Γ(k/2, 1/2).
 //
 // For more information, see https://en.wikipedia.org/wiki/Chi-squared_distribution.
+// ChiSquared 结构体用于表示一维卡方分布（Chi-Squared 分布），并提供生成随机样本、计算概率密度和分位数等功能。
 type ChiSquared struct {
 	// K is the shape parameter, corresponding to the degrees of freedom. Must
 	// be greater than 0.

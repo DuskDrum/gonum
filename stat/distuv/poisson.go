@@ -19,6 +19,7 @@ import (
 //	f(k) = λ^k / k! e^(-λ)
 //
 // For more information, see https://en.wikipedia.org/wiki/Poisson_distribution.
+// Poisson 结构体用于表示一维泊松分布，并提供生成随机样本、计算概率质量和分位数等功能。
 type Poisson struct {
 	// Lambda is the average number of events in an interval.
 	// Lambda must be greater than 0.

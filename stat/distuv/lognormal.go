@@ -13,6 +13,8 @@ import (
 // The probability density function is given by
 //
 //	1/(x σ √2π) exp(-(ln(x)-μ)^2)/(2σ^2))
+//
+// LogNormal 结构体用于表示一维对数正态分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type LogNormal struct {
 	Mu    float64
 	Sigma float64

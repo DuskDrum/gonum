@@ -10,6 +10,7 @@ import (
 )
 
 // Triangle represents a triangle distribution (https://en.wikipedia.org/wiki/Triangular_distribution).
+// Triangle 结构体用于表示一维三角分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Triangle struct {
 	a, b, c float64
 	src     rand.Source

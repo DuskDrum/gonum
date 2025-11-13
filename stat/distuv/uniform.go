@@ -14,6 +14,7 @@ import (
 var UnitUniform = Uniform{Min: 0, Max: 1}
 
 // Uniform represents a continuous uniform distribution (https://en.wikipedia.org/wiki/Uniform_distribution_%28continuous%29).
+// Uniform 结构体用于表示一维均匀分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Uniform struct {
 	Min float64
 	Max float64

@@ -11,6 +11,7 @@ import (
 
 // AlphaStable represents an α-stable distribution with four parameters.
 // See https://en.wikipedia.org/wiki/Stable_distribution for more information.
+// AlphaStable 结构体用于表示一维 α-稳定分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type AlphaStable struct {
 	// Alpha is the stability parameter.
 	// It is valid within the range 0 < α ≤ 2.

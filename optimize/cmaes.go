@@ -54,6 +54,8 @@ var _ Method = (*CmaEsChol)(nil)
 //
 //	https://en.wikipedia.org/wiki/CMA-ES
 //	https://arxiv.org/pdf/1604.00772.pdf
+//
+// optimize 包下的 CmaEsChol 结构体用于实现 CMA-ES（协方差矩阵自适应进化策略）中的 Cholesky 分解，用于生成协方差矩阵的搜索方向以求解无约束优化问题。
 type CmaEsChol struct {
 	// InitStepSize sets the initial size of the covariance matrix adaptation.
 	// If InitStepSize is 0, a default value of 0.5 is used. InitStepSize cannot

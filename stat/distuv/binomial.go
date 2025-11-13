@@ -20,6 +20,7 @@ import (
 //	f(k) = (n choose k) p^k (1-p)^(n-k)
 //
 // For more information, see https://en.wikipedia.org/wiki/Binomial_distribution.
+// Binomial 结构体用于表示一维二项分布，并提供生成随机样本、计算概率质量和分位数等功能。
 type Binomial struct {
 	// N is the total number of Bernoulli trials. N must be greater than 0.
 	N float64

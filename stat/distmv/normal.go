@@ -21,6 +21,7 @@ import (
 //
 // where μ is the mean vector and Σ the covariance matrix. Σ must be symmetric
 // and positive definite. Use NewNormal to construct.
+// Normal 结构体用于表示多维正态分布，并提供生成样本、计算概率密度和分位数等功能。
 type Normal struct {
 	mu []float64
 

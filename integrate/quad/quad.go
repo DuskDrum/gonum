@@ -2,6 +2,9 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// integrate 包中的 quad/quad.go 文件提供了数值积分（数值求积）的功能，用于计算定积分的数值近似值。这是科学计算中非常重要的基础工具。
+// 主要作用是数值积分计算：计算函数在区间上的定积分、处理无法解析积分的函数、提供自适应积分算法
+// 自适应求积算法: 自动调整精度、处理函数奇点和不连续点、误差估计和控制
 package quad
 
 import (
@@ -14,15 +17,37 @@ import (
 // the len(x). The weights and locations should be chosen such that
 //
 //	int_min^max f(x) dx ≈ \sum_i w_i f(x_i)
+//
+// 定义了固定节点数值积分规则的核心功能
 type FixedLocationer interface {
+	// FixedLocations 生成数值积分的节点位置和权重
+	//参数：
+	//n：节点数量（积分精度）
+	//a, b：积分区间 [a, b]
+	//
+	//返回值：
+	//xs：节点位置（求积节点）
+	//ws：对应权重（求积权重）
+	//
+	//数学原理：
+	//数值积分公式：$\int_a^b f(x) dx \approx \sum_{i=0}^{n-1} w_i f(x_i)$
 	FixedLocations(x, weight []float64, min, max float64)
 }
 
 // FixedLocationSingler wraps the FixedLocationSingle method.
+// 在 integrate/quad/quad.go 文件中，FixedLocationSingler 接口是单精度固定节点数值积分规则的核心接口。它专门为单精度浮点数计算设计，在内存敏感或性能要求高的场景中特别有用。
 type FixedLocationSingler interface {
 	// FixedLocationSingle returns the location and weight for
 	// element k in a fixed quadrature rule with n total samples
 	// and integral bounds from min to max.
+	// FixedLocationSingle 作用：生成单精度数值积分的节点位置和权重
+	// 参数：
+	//n：节点数量（积分精度）
+	//a, b：积分区间 [a, b]（单精度）
+	//
+	//返回值：
+	//xs：节点位置数组（单精度）
+	//ws：对应权重数组（单精度）
 	FixedLocationSingle(n, k int, min, max float64) (x, weight float64)
 }
 

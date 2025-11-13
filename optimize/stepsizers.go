@@ -30,6 +30,7 @@ var (
 
 // ConstantStepSize is a StepSizer that returns the same step size for
 // every iteration.
+// optimize 包下的 ConstantStepSize 结构体用于提供 固定步长策略，在优化迭代中始终返回预设的常数步长。
 type ConstantStepSize struct {
 	Size float64
 }
@@ -47,6 +48,7 @@ func (c ConstantStepSize) StepSize(_ *Location, _ []float64) float64 {
 // This is useful for line search methods that do not produce well-scaled
 // descent directions, such as gradient descent or conjugate gradient methods.
 // The step size is bounded away from zero.
+// optimize 包下的 QuadraticStepSize 结构体用于根据 二次近似模型估算初始步长，从而为步长搜索提供合理起点加速优化。
 type QuadraticStepSize struct {
 	// Threshold determines that the initial step size should be estimated by
 	// quadratic interpolation when the relative change in the objective
@@ -139,6 +141,7 @@ func (q *QuadraticStepSize) StepSize(loc *Location, dir []float64) (stepSize flo
 //
 // This is useful for line search methods that do not produce well-scaled
 // descent directions, such as gradient descent or conjugate gradient methods.
+// optimize 包下的 FirstOrderStepSize 结构体用于实现 基于一阶信息自适应计算初始步长，根据梯度和函数变化估算合理的步长以加速优化收敛。
 type FirstOrderStepSize struct {
 	// InitialStepFactor sets the step size for the first iteration to be InitialStepFactor / |g|_∞.
 	// If InitialStepFactor is zero, it will be set to one.

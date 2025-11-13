@@ -13,6 +13,7 @@ import (
 )
 
 // Laplace represents the Laplace distribution (https://en.wikipedia.org/wiki/Laplace_distribution).
+// Laplace 结构体用于表示一维拉普拉斯分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Laplace struct {
 	Mu    float64 // Mean of the Laplace distribution
 	Scale float64 // Scale of the Laplace distribution

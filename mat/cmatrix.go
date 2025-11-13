@@ -13,6 +13,7 @@ import (
 )
 
 // CMatrix is the basic matrix interface type for complex matrices.
+// 复数矩阵接口
 type CMatrix interface {
 	// Dims returns the dimensions of a CMatrix.
 	Dims() (r, c int)
@@ -36,7 +37,9 @@ type CMatrix interface {
 
 // A RawCMatrixer can return a cblas128.General representation of the receiver. Changes to the cblas128.General.Data
 // slice will be reflected in the original matrix, changes to the Rows, Cols and Stride fields will not.
+// 复数矩阵
 type RawCMatrixer interface {
+	// RawCMatrix 返回一个指向矩阵数据的 blas64.General 结构
 	RawCMatrix() cblas128.General
 }
 
@@ -48,6 +51,7 @@ var (
 // ConjTranspose is a type for performing an implicit matrix conjugate transpose.
 // It implements the CMatrix interface, returning values from the conjugate
 // transpose of the matrix within.
+// ConjTranspose 复数矩阵的共轭转置视图
 type ConjTranspose struct {
 	CMatrix CMatrix
 }
@@ -86,6 +90,8 @@ func (t ConjTranspose) UnConjTranspose() CMatrix {
 // CTranspose is a type for performing an implicit matrix conjugate transpose.
 // It implements the CMatrix interface, returning values from the conjugate
 // transpose of the matrix within.
+// CTranspose 是一个用于执行隐式矩阵共轭转置的类型
+// 它实现了 CMatrix 接口，返回内部矩阵的共轭转置值
 type CTranspose struct {
 	CMatrix CMatrix
 }
@@ -121,8 +127,10 @@ func (t CTranspose) Untranspose() CMatrix {
 }
 
 // UnConjTransposer is a type that can undo an implicit conjugate transpose.
+// UnConjTransposer 是一个可以撤销其转置或共轭转置状态的类型
 type UnConjTransposer interface {
 	// UnConjTranspose returns the underlying CMatrix stored for the implicit
+	// UnConjTranspose 返回底层矩阵，撤销任何转置或共轭转置操作
 	// conjugate transpose.
 	UnConjTranspose() CMatrix
 
@@ -134,6 +142,7 @@ type UnConjTransposer interface {
 }
 
 // CUntransposer is a type that can undo an implicit transpose.
+// 复数矩阵隐式转置撤销
 type CUntransposer interface {
 	// Untranspose returns the underlying CMatrix stored for the implicit
 	// transpose.

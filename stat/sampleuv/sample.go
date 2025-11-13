@@ -27,6 +27,8 @@ var (
 // Sampler generates a batch of samples according to the rule specified by the
 // implementing type. The number of samples generated is equal to len(batch),
 // and the samples are stored in-place into the input.
+// 定义一个统一的采样接口，用于从某种一维（univariate）概率分布中生成样本。
+// sampleuv（一维采样）
 type Sampler interface {
 	Sample(batch []float64)
 }
@@ -36,12 +38,14 @@ type Sampler interface {
 // generated is equal to len(batch), and the samples and weights
 // are stored in-place into the inputs. The length of weights must equal
 // len(batch), otherwise SampleWeighted will panic.
+// 用于实现带权重的采样算法（例如重要性抽样、拒绝抽样等），既生成样本又提供每个样本的相对权重。
 type WeightedSampler interface {
 	SampleWeighted(batch, weights []float64)
 }
 
 // SampleUniformWeighted wraps a Sampler type to create a WeightedSampler where all
 // weights are equal.
+// SampleUniformWeighted 结构体用于生成均匀分布的样本，并为每个样本分配相等的权重。
 type SampleUniformWeighted struct {
 	Sampler
 }
@@ -67,6 +71,7 @@ func (w SampleUniformWeighted) SampleWeighted(batch, weights []float64) {
 // spaced bins and guarantees that one sample is generated per bin. Within each bin,
 // the location is randomly sampled. The distuv.UnitUniform variable can be used
 // for easy sampling from the unit hypercube.
+// LatinHypercube 结构体用于在多维空间中生成覆盖性较好的均匀采样点（拉丁超立方采样）。
 type LatinHypercube struct {
 	Q   distuv.Quantiler
 	Src rand.Source
@@ -107,6 +112,7 @@ func latinHypercube(batch []float64, q distuv.Quantiler, src rand.Source) {
 // a good proposal distribution will bound this sampling weight. This implies the
 // support of q(x) should be at least as broad as p(x), and q(x) should be "fatter tailed"
 // than p(x).
+// Importance 结构体用于通过重要性采样从目标分布生成带权重的样本。
 type Importance struct {
 	Target   distuv.LogProber
 	Proposal distuv.RandLogProber
@@ -156,6 +162,7 @@ var ErrRejection = errors.New("rejection: acceptance ratio above 1")
 // a value that is proportional to the probability (logprob + constant). This is
 // useful for cases where the probability distribution is only known up to a normalization
 // constant.
+// Rejection 结构体用于通过拒绝采样方法从目标分布中生成随机样本。
 type Rejection struct {
 	C        float64
 	Target   distuv.LogProber
@@ -226,6 +233,7 @@ func rejection(batch []float64, target distuv.LogProber, proposal distuv.RandLog
 }
 
 // MHProposal defines a proposal distribution for Metropolis Hastings.
+// Metropolis-Hastings（MH）算法中提议分布（proposal distribution）的抽象接口
 type MHProposal interface {
 	// ConditionalDist returns the probability of the first argument conditioned on
 	// being at the second argument
@@ -270,6 +278,7 @@ type MHProposal interface {
 // every sample).
 //
 // The initial value is NOT changed during calls to Sample.
+// MetropolisHastings 结构体用于通过马尔可夫链蒙特卡洛（MCMC）方法从复杂概率分布中生成样本。
 type MetropolisHastings struct {
 	Initial  float64
 	Target   distuv.LogProber
@@ -355,6 +364,7 @@ func metropolisHastings(batch []float64, initial float64, target distuv.LogProbe
 
 // IIDer generates a set of independently and identically distributed samples from
 // the input distribution.
+// IIDer 结构体用于从指定分布中生成独立同分布（IID）的随机样本。
 type IIDer struct {
 	Dist distuv.Rander
 }

@@ -11,8 +11,10 @@ import (
 // Converger returns the convergence of the optimization based on
 // locations found during optimization. Converger must not modify the value of
 // the provided Location in any of the methods.
+// 用于 判断优化算法是否已经收敛。它提供了统一机制，让不同优化方法能够在迭代过程中检查收敛条件，从而停止迭代，避免不必要的计算
 type Converger interface {
 	Init(dim int)
+	// Converged 判断当前迭代点是否满足收敛条件。
 	Converged(loc *Location) Status
 }
 
@@ -22,6 +24,7 @@ var (
 )
 
 // NeverTerminate implements Converger, always reporting NotTerminated.
+// optimize 包下的 NeverTerminate 结构体用于实现 永不收敛策略，在优化过程中始终返回未收敛，适用于测试或特殊迭代控制场景。
 type NeverTerminate struct{}
 
 func (NeverTerminate) Init(dim int) {}
@@ -45,6 +48,7 @@ func (NeverTerminate) Converged(loc *Location) Status {
 // f_best is updated.
 //
 // If FunctionConverge.Iterations == 0, it has no effect.
+// optimize 包下的 FunctionConverge 结构体用于根据 函数值变化收敛 判定优化是否结束，当连续迭代函数值变化小于设定阈值时认为收敛。
 type FunctionConverge struct {
 	Absolute   float64
 	Relative   float64

@@ -26,6 +26,7 @@ const logPi = 1.1447298858494001741 // http://oeis.org/A053510
 // specifically https://en.wikipedia.org/wiki/Student%27s_t-distribution#Non-standardized_Student.27s_t-distribution .
 //
 // The standard Student's T distribution is with Mu = 0, and Sigma = 1.
+// StudentsT 结构体用于表示一维 Student’s t 分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type StudentsT struct {
 	// Mu is the location parameter of the distribution, and the mean of the
 	// distribution

@@ -12,6 +12,7 @@ import (
 // Categorical is an extension of the Bernoulli distribution where x takes
 // values {0, 1, ..., len(w)-1} where w is the weight vector. Categorical must
 // be initialized with NewCategorical.
+// Categorical 结构体用于表示一维类别分布，并提供生成随机样本和计算概率质量等功能。
 type Categorical struct {
 	weights []float64
 

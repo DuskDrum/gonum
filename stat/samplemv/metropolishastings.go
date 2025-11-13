@@ -15,6 +15,8 @@ import (
 var _ Sampler = MetropolisHastingser{}
 
 // MHProposal defines a proposal distribution for Metropolis Hastings.
+// 你提供的 MHProposal 接口是在 samplemv（多维采样）包中定义的，它是 多维 Metropolis-Hastings 算法中提议分布（proposal distribution）的抽象接口。
+// MHProposal 用于 定义在多维空间中如何从当前状态生成候选状态，是多维 Metropolis-Hastings（MH）算法的核心组成部分。
 type MHProposal interface {
 	// ConditionalLogProb returns the probability of the first argument
 	// conditioned on being at the second argument.
@@ -62,6 +64,7 @@ type MHProposal interface {
 // every sample).
 //
 // The initial value is NOT changed during calls to Sample.
+// MetropolisHastingser 结构体用于通过多维 Metropolis-Hastings 算法生成依赖于当前状态的样本序列。
 type MetropolisHastingser struct {
 	Initial  []float64
 	Target   distmv.LogProber
@@ -163,6 +166,7 @@ func metropolisHastings(batch *mat.Dense, initial []float64, target distmv.LogPr
 // ProposalNormal is a sampling distribution for Metropolis-Hastings. It has a
 // fixed covariance matrix and changes the mean based on the current sampling
 // location.
+// ProposalNormal 结构体用于在多维 Metropolis-Hastings 算法中生成服从多维正态分布的候选状态。
 type ProposalNormal struct {
 	normal *distmv.Normal
 }

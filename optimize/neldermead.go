@@ -61,6 +61,8 @@ var _ Method = (*NelderMead)(nil)
 // the recommendations in
 //
 //	http://www.webpages.uidaho.edu/~fuchang/res/ANMS.pdf
+//
+// optimize 包下的 NelderMead 结构体用于实现 单纯形法（Nelder–Mead 方法），通过调整单纯形顶点迭代求解无约束优化问题而无需梯度信息。
 type NelderMead struct {
 	InitialVertices [][]float64
 	InitialValues   []float64

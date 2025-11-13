@@ -14,6 +14,7 @@ var (
 
 // GradientDescent implements the steepest descent optimization method that
 // performs successive steps along the direction of the negative gradient.
+// optimize 包下的 GradientDescent 结构体用于实现 梯度下降法，通过沿负梯度方向迭代更新以求解无约束优化问题。
 type GradientDescent struct {
 	// Linesearcher selects suitable steps along the descent direction.
 	// If Linesearcher is nil, a reasonable default will be chosen.

@@ -24,6 +24,7 @@ var (
 // O(Store * dim) while BFGS scales as O(dim^2). The "forgetful" nature of
 // LBFGS may also make it perform better than BFGS for functions with Hessians
 // that vary rapidly spatially.
+// optimize 包下的 LBFGS 结构体用于实现 有限内存拟牛顿法（L-BFGS），通过近似 Hessian 信息高效求解大规模无约束优化问题。
 type LBFGS struct {
 	// Linesearcher selects suitable steps along the descent direction.
 	// Accepted steps should satisfy the strong Wolfe conditions.

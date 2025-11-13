@@ -23,12 +23,21 @@ var (
 
 // CGVariant calculates the scaling parameter, β, used for updating the
 // conjugate direction in the nonlinear conjugate gradient (CG) method.
+// 非线性共轭梯度法
+// 在非线性优化中，共轭梯度法的基本迭代公式为：d_{k+1} = -g_{k+1} + \beta_k d_k
+// 其中：
+//   - g_k = \nabla f(x_k)：当前梯度
+//   - d_k：当前搜索方向
+//   - \beta_k：控制“新方向中保留多少旧方向”的权重因子
 type CGVariant interface {
 	// Init is called at the first iteration and provides a way to initialize
 	// any internal state.
+	// 初始化方法。 在第一次迭代时调用，用于初始化算法的内部状态
+	// 在算法开始时（第 0 次迭代）初始化搜索方向。通常设定为负梯度方向，即： d_0 = -g_0
 	Init(loc *Location)
 	// Beta returns the value of the scaling parameter that is computed
 	// according to the particular variant of the CG method.
+	// 计算本次迭代的 β 值（βₖ），决定新方向 d_{k+1} 的更新：d_{k+1} = -g_{k+1} + \beta_k d_k
 	Beta(grad, gradPrev, dirPrev []float64) float64
 }
 
@@ -72,6 +81,7 @@ var (
 // See also William Hager, Hongchao Zhang, A survey of nonlinear conjugate
 // gradient methods. Pacific Journal of Optimization, 2 (2006), pp. 35-58, and
 // references therein.
+// optimize 包下的 CG 结构体用于实现 非线性共轭梯度法，通过迭代计算搜索方向加速无约束优化问题的收敛。
 type CG struct {
 	// Linesearcher must satisfy the strong Wolfe conditions at every iteration.
 	// If Linesearcher == nil, an appropriate default is chosen.
@@ -267,6 +277,9 @@ func (*CG) needs() struct {
 // computes the scaling parameter β_k according to the formula
 //
 //	β_k = |∇f_{k+1}|^2 / |∇f_k|^2.
+//
+// 共轭梯度法（Conjugate Gradient, CG） 的 Fletcher–Reeves 变体 的结构体。
+// FletcherReeves 是 Gonum 共轭梯度法的最基础变体结构体，使用 \beta_k = \frac{g_{k+1}^T g_{k+1}}{g_k^T g_k} 更新方向，是最经典但相对保守的实现。
 type FletcherReeves struct {
 	prevNorm float64
 }
@@ -288,6 +301,8 @@ func (fr *FletcherReeves) Beta(grad, _, _ []float64) (beta float64) {
 //	β_k = max(0, ∇f_{k+1}·y_k / |∇f_k|^2),
 //
 // where y_k = ∇f_{k+1} - ∇f_k.
+// 非线性共轭梯度法（Conjugate Gradient, CG） 的 Polak–Ribiere–Polyak 变体 的结构体。
+// PolakRibierePolyak 是 Gonum 共轭梯度法中常用的 PRP 变体结构体，通过考虑梯度变化来计算 βₖ，使搜索方向更灵活、收敛更快，适合实际非线性优化。
 type PolakRibierePolyak struct {
 	prevNorm float64
 }
@@ -310,6 +325,8 @@ func (pr *PolakRibierePolyak) Beta(grad, gradPrev, _ []float64) (beta float64) {
 //	β_k = max(0, ∇f_{k+1}·y_k / d_k·y_k),
 //
 // where y_k = ∇f_{k+1} - ∇f_k.
+// 非线性共轭梯度法（Conjugate Gradient, CG） 中 Hestenes–Stiefel (HS) 变体 的结构体
+// HestenesStiefel 是 Gonum 共轭梯度法中的 HS 变体结构体，通过对梯度差向量敏感的 β 计算，提高方向调整效率和收敛速度。
 type HestenesStiefel struct {
 	y []float64
 }
@@ -330,6 +347,8 @@ func (hs *HestenesStiefel) Beta(grad, gradPrev, dirPrev []float64) (beta float64
 //	β_k = |∇f_{k+1}|^2 / d_k·y_k,
 //
 // where y_k = ∇f_{k+1} - ∇f_k.
+// 共轭梯度法（Conjugate Gradient, CG）中 Dai–Yuan 变体
+// DaiYuan 是 Gonum 的共轭梯度优化算法中，用于计算方向更新系数 β 的一个稳定变体实现（即 Dai–Yuan 公式的封装）。
 type DaiYuan struct {
 	y []float64
 }
@@ -350,6 +369,8 @@ func (dy *DaiYuan) Beta(grad, gradPrev, dirPrev []float64) (beta float64) {
 //	β_k = (y_k - 2 d_k |y_k|^2/(d_k·y_k))·∇f_{k+1} / (d_k·y_k),
 //
 // where y_k = ∇f_{k+1} - ∇f_k.
+// 非线性共轭梯度法（Conjugate Gradient, CG） 中 Hager–Zhang (HZ) 变体 的结构体
+// HagerZhang 是 Gonum 共轭梯度算法中最先进、最鲁棒的变体结构体， 通过更复杂的 βₖ 计算公式，在实际非线性优化中表现最稳定、收敛最快，适合工程应用。
 type HagerZhang struct {
 	y []float64
 }

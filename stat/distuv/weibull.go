@@ -10,6 +10,7 @@ import (
 )
 
 // Weibull distribution. Valid range for x is [0,+∞).
+// Weibull 结构体用于表示一维韦布尔分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Weibull struct {
 	// Shape parameter of the distribution. A value of 1 represents
 	// the exponential distribution. A value of 2 represents the

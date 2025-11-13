@@ -25,6 +25,7 @@ var _ Linesearcher = (*Backtracking)(nil)
 // Both DecreaseFactor and ContractionFactor must be between zero and one, and
 // Backtracking will panic otherwise. If either DecreaseFactor or
 // ContractionFactor are zero, it will be set to a reasonable default.
+// optimize 包下的 Backtracking 结构体用于实现 回溯线搜索法（Backtracking Line Search），通过沿搜索方向逐步缩小步长以满足下降条件进行优化。
 type Backtracking struct {
 	DecreaseFactor    float64 // Constant factor in the sufficient decrease (Armijo) condition.
 	ContractionFactor float64 // Step size multiplier at each iteration (step *= ContractionFactor).

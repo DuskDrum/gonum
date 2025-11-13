@@ -21,6 +21,7 @@ import (
 // Beta must be greater than 0.
 //
 // For more information, see https://en.wikipedia.org/wiki/Gumbel_distribution.
+// GumbelRight 结构体用于表示一维右偏 Gumbel 分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type GumbelRight struct {
 	Mu   float64
 	Beta float64

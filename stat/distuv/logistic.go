@@ -17,6 +17,7 @@ import (
 //	where E(x) = exp(-(x-μ)/s)
 //
 // For more information, see https://en.wikipedia.org/wiki/Logistic_distribution.
+// Logistic 结构体用于表示一维逻辑斯蒂分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Logistic struct {
 	Mu float64 // Mean value
 	S  float64 // Scale parameter proportional to standard deviation

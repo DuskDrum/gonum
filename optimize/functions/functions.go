@@ -24,6 +24,8 @@ import (
 //     Techniques Research Group, Princeton University (1958)
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 Beale 结构体用于提供 Beale 函数的实现，常作为测试优化算法的二维无约束优化基准函数。
 type Beale struct{}
 
 func (Beale) Func(x []float64) float64 {
@@ -100,6 +102,8 @@ func (Beale) Minima() []Minimum {
 //
 //	Biggs, M.C.: Minimization algorithms making use of non-quadratic properties
 //	of the objective function. IMA J Appl Math 8 (1971), 315-327; doi:10.1093/imamat/8.3.315
+//
+// optimize/functions 包下的 BiggsEXP2 结构体用于提供 Biggs EXP2 函数的实现，常用于测试非线性最小二乘优化算法的性能。
 type BiggsEXP2 struct{}
 
 func (BiggsEXP2) Func(x []float64) (sum float64) {
@@ -160,6 +164,8 @@ func (BiggsEXP2) Minima() []Minimum {
 //
 //	Biggs, M.C.: Minimization algorithms making use of non-quadratic properties
 //	of the objective function. IMA J Appl Math 8 (1971), 315-327; doi:10.1093/imamat/8.3.315
+//
+// optimize/functions 包下的 BiggsEXP3 结构体用于提供 Biggs EXP3 函数的实现，常用于测试非线性最小二乘优化算法在三维数据上的性能基准。
 type BiggsEXP3 struct{}
 
 func (BiggsEXP3) Func(x []float64) (sum float64) {
@@ -222,6 +228,8 @@ func (BiggsEXP3) Minima() []Minimum {
 //
 //	Biggs, M.C.: Minimization algorithms making use of non-quadratic properties
 //	of the objective function. IMA J Appl Math 8 (1971), 315-327; doi:10.1093/imamat/8.3.315
+//
+// optimize/functions 包下的 BiggsEXP4 结构体用于提供 Biggs EXP4 函数的实现，常用于测试非线性最小二乘优化算法在四维数据上的性能基准。
 type BiggsEXP4 struct{}
 
 func (BiggsEXP4) Func(x []float64) (sum float64) {
@@ -286,6 +294,8 @@ func (BiggsEXP4) Minima() []Minimum {
 //
 //	Biggs, M.C.: Minimization algorithms making use of non-quadratic properties
 //	of the objective function. IMA J Appl Math 8 (1971), 315-327; doi:10.1093/imamat/8.3.315
+//
+// optimize/functions 包下的 BiggsEXP5 结构体用于提供 Biggs EXP5 函数的实现，常用于测试非线性最小二乘优化算法在五维数据上的性能基准。
 type BiggsEXP5 struct{}
 
 func (BiggsEXP5) Func(x []float64) (sum float64) {
@@ -354,6 +364,8 @@ func (BiggsEXP5) Minima() []Minimum {
 //     doi:10.1093/imamat/8.3.315
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 BiggsEXP6 结构体用于提供 Biggs EXP6 函数的实现，常用于测试非线性最小二乘优化算法在六维数据上的性能基准。
 type BiggsEXP6 struct{}
 
 func (BiggsEXP6) Func(x []float64) (sum float64) {
@@ -435,6 +447,8 @@ func (BiggsEXP6) Minima() []Minimum {
 //     use of transformations in constrained problems. Comput J 9 (1966), 67-77
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 Box3D 结构体用于提供 三维 Box 函数的实现，常用于测试多维无约束优化算法的性能和收敛性。
 type Box3D struct{}
 
 func (Box3D) Func(x []float64) (sum float64) {
@@ -504,6 +518,8 @@ func (Box3D) Minima() []Minimum {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/branin.html (obtained June 2017)
+//
+// optimize/functions 包下的 BraninHoo 结构体用于提供 Branin–Hoo 函数的实现，常作为二维多峰无约束优化算法的测试基准函数。
 type BraninHoo struct{}
 
 func (BraninHoo) Func(x []float64) float64 {
@@ -545,6 +561,8 @@ func (BraninHoo) Minima() []Minimum {
 // References:
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 BrownBadlyScaled 结构体用于提供 Brown 不良缩放函数的实现，常用于测试优化算法在存在数值缩放问题时的稳定性和收敛性能。
 type BrownBadlyScaled struct{}
 
 func (BrownBadlyScaled) Func(x []float64) float64 {
@@ -611,6 +629,8 @@ func (BrownBadlyScaled) Minima() []Minimum {
 //     University (1971)
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 BrownAndDennis 结构体用于提供 Brown–Dennis 函数的实现，常用于测试非线性最小二乘优化算法的性能基准。
 type BrownAndDennis struct{}
 
 func (BrownAndDennis) Func(x []float64) (sum float64) {
@@ -714,6 +734,8 @@ func (BrownAndDennis) Minima() []Minimum {
 //     Optimization 2 (1978), 209-219
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 ExtendedPowellSingular 结构体用于提供 扩展 Powell 奇异函数的实现，常用于测试多维非线性最小二乘优化算法的性能和收敛性。
 type ExtendedPowellSingular struct{}
 
 func (ExtendedPowellSingular) Func(x []float64) (sum float64) {
@@ -787,6 +809,8 @@ func (ExtendedPowellSingular) Minima() []Minimum {
 //   - Rosenbrock, H.H.: An Automatic Method for Finding the Greatest or Least
 //     Value of a Function. Computer J 3 (1960), 175-184
 //   - http://en.wikipedia.org/wiki/Rosenbrock_function
+//
+// optimize/functions 包下的 ExtendedRosenbrock 结构体用于提供 扩展 Rosenbrock 函数的实现，常用于测试多维无约束优化算法的性能和收敛性。
 type ExtendedRosenbrock struct{}
 
 func (ExtendedRosenbrock) Func(x []float64) (sum float64) {
@@ -883,6 +907,8 @@ func (ExtendedRosenbrock) Minima() []Minimum {
 //
 //	More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained optimization
 //	software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 Gaussian 结构体用于提供 高斯函数的实现，常作为优化算法的单峰测试基准函数。
 type Gaussian struct{}
 
 func (Gaussian) y(i int) (yi float64) {
@@ -968,6 +994,8 @@ func (Gaussian) Minima() []Minimum {
 //     Research and Development Company, Pittsburg (1969)
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 GulfResearchAndDevelopment 结构体用于提供 Gulf Research and Development 函数的实现，常用于测试非线性最小二乘优化算法的性能基准。
 type GulfResearchAndDevelopment struct{}
 
 func (GulfResearchAndDevelopment) Func(x []float64) (sum float64) {
@@ -1045,6 +1073,8 @@ func (GulfResearchAndDevelopment) Minima() []Minimum {
 //     minimization. Comput J 6 (1963), 163-168
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 HelicalValley 结构体用于提供 Helical Valley 函数的实现，常用于测试多维无约束优化算法的收敛性和性能。
 type HelicalValley struct{}
 
 func (HelicalValley) Func(x []float64) float64 {
@@ -1100,6 +1130,7 @@ func (HelicalValley) Minima() []Minimum {
 }
 
 // Linear implements a linear function.
+// optimize/functions 包下的 Linear 结构体用于提供 线性函数的实现，常用于测试优化算法在简单凸函数上的性能和收敛性。
 type Linear struct{}
 
 func (Linear) Func(x []float64) float64 {
@@ -1129,6 +1160,8 @@ func (Linear) Grad(grad, x []float64) []float64 {
 //     National Phys Lab (1972), 82-83
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 PenaltyI 结构体用于提供 Penalty I 函数的实现，常用于测试优化算法在带约束或罚函数问题上的性能。
 type PenaltyI struct{}
 
 func (PenaltyI) Func(x []float64) (sum float64) {
@@ -1188,6 +1221,8 @@ func (PenaltyI) Minima() []Minimum {
 //     National Phys Lab (1972), 82-83
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 PenaltyII 结构体用于提供 Penalty II 函数的实现，常用于测试优化算法在带约束或罚函数问题上的性能。
 type PenaltyII struct{}
 
 func (PenaltyII) Func(x []float64) (sum float64) {
@@ -1269,6 +1304,8 @@ func (PenaltyII) Minima() []Minimum {
 //     and Breach (1970)
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 PowellBadlyScaled 结构体用于提供 Powell 不良缩放函数的实现，常用于测试优化算法在数值缩放问题下的稳定性和收敛性能。
 type PowellBadlyScaled struct{}
 
 func (PowellBadlyScaled) Func(x []float64) float64 {
@@ -1338,6 +1375,8 @@ func (PowellBadlyScaled) Minima() []Minimum {
 //     Optimization 2 (1978), 209-219
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 Trigonometric 结构体用于提供 三角函数型目标函数的实现，常用于测试多维无约束优化算法的性能和收敛性。
 type Trigonometric struct{}
 
 func (Trigonometric) Func(x []float64) (sum float64) {
@@ -1407,6 +1446,8 @@ func (Trigonometric) Minima() []Minimum {
 //
 //	More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained optimization
 //	software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 VariablyDimensioned 结构体用于提供 可变维度函数的实现，常用于测试不同维度下无约束优化算法的性能和鲁棒性。
 type VariablyDimensioned struct{}
 
 func (VariablyDimensioned) Func(x []float64) (sum float64) {
@@ -1483,6 +1524,8 @@ func (VariablyDimensioned) Minima() []Minimum {
 //     Problems. Elsevier North-Holland, New York, 1968
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 Watson 结构体用于提供 Watson 函数的实现，常用于测试多维非线性最小二乘优化算法的性能基准。
 type Watson struct{}
 
 func (Watson) Func(x []float64) (sum float64) {
@@ -1634,6 +1677,8 @@ func (Watson) Minima() []Minimum {
 //     Report 320-2949, IBM New York Scientific Center (1968)
 //   - More, J., Garbow, B.S., Hillstrom, K.E.: Testing unconstrained
 //     optimization software. ACM Trans Math Softw 7 (1981), 17-41
+//
+// optimize/functions 包下的 Wood 结构体用于提供 Wood 函数的实现，常用于测试多维无约束优化算法的性能和收敛性。
 type Wood struct{}
 
 func (Wood) Func(x []float64) (sum float64) {
@@ -1707,6 +1752,8 @@ func (Wood) Minima() []Minimum {
 //
 //	More, J.J., and Thuente, D.J.: Line Search Algorithms with Guaranteed Sufficient Decrease.
 //	ACM Transactions on Mathematical Software 20(3) (1994), 286–307, eq. (5.1)
+//
+// optimize/functions 包下的 ConcaveRight 结构体用于提供 右凹函数的实现，常用于测试优化算法在非对称凹函数上的性能和收敛性。
 type ConcaveRight struct{}
 
 func (ConcaveRight) Func(x []float64) float64 {
@@ -1734,6 +1781,8 @@ func (ConcaveRight) Grad(grad, x []float64) {
 //
 //	More, J.J., and Thuente, D.J.: Line Search Algorithms with Guaranteed Sufficient Decrease.
 //	ACM Transactions on Mathematical Software 20(3) (1994), 286–307, eq. (5.2)
+//
+// optimize/functions 包下的 ConcaveLeft 结构体用于提供 左凹函数的实现，常用于测试优化算法在非对称凹函数上的性能和收敛性。
 type ConcaveLeft struct{}
 
 func (ConcaveLeft) Func(x []float64) float64 {
@@ -1764,6 +1813,8 @@ func (ConcaveLeft) Grad(grad, x []float64) {
 //
 //	More, J.J., and Thuente, D.J.: Line Search Algorithms with Guaranteed Sufficient Decrease.
 //	ACM Transactions on Mathematical Software 20(3) (1994), 286–307, eq. (5.3)
+//
+// optimize/functions 包下的 Plassmann 结构体用于提供 Plassmann 函数的实现，常用于测试多维无约束优化算法的性能和收敛性。
 type Plassmann struct {
 	L    float64 // Number of oscillations for |x-1| ≥ Beta.
 	Beta float64 // Size of the derivative at zero, f'(0) = -Beta.
@@ -1820,6 +1871,8 @@ func (f Plassmann) Grad(grad, x []float64) {
 //     ACM Transactions on Mathematical Software 20(3) (1994), 286–307, eq. (5.4)
 //   - Yanai, H., Ozawa, M., and Kaneko, S.: Interpolation methods in one dimensional
 //     optimization. Computing 27 (1981), 155–163
+//
+// optimize/functions 包下的 YanaiOzawaKaneko 结构体用于提供 Yanai–Ozawa–Kaneko 函数的实现，常用于测试多维非线性最小二乘优化算法的性能基准。
 type YanaiOzawaKaneko struct {
 	Beta1 float64
 	Beta2 float64

@@ -19,6 +19,7 @@ import (
 //	1/(2^{k/2-1} * Γ(k/2)) * x^{k - 1} * e^{-x^2/2}
 //
 // For more information, see https://en.wikipedia.org/wiki/Chi_distribution.
+// Chi 结构体用于表示一维卡方分布（Chi 分布），并提供生成随机样本、计算概率密度和分位数等功能。
 type Chi struct {
 	// K is the shape parameter, corresponding to the degrees of freedom. Must
 	// be greater than 0.

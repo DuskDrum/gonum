@@ -12,6 +12,7 @@ import (
 
 // PiecewiseCubic is a piecewise cubic 1-dimensional interpolator with
 // continuous value and first derivative.
+// 在 Gonum 的 interp 包中，PiecewiseCubic 结构体实现了分段三次 Hermite 插值，使用 Fritsch-Butland 方法估计导数以保持数据单调性。
 type PiecewiseCubic struct {
 	// Interpolated X values.
 	xs []float64
@@ -113,6 +114,7 @@ func (pc *PiecewiseCubic) FitWithDerivatives(xs, ys, dydxs []float64) {
 // continuous value and first derivative, which can be fitted to (X, Y)
 // value pairs without providing derivatives.
 // See https://www.iue.tuwien.ac.at/phd/rottinger/node60.html for more details.
+// 在 Gonum 的 interp 包中，AkimaSpline 结构体实现了Akima 样条插值算法，能够有效避免异常波动并在数据点处提供平滑的一阶导数。
 type AkimaSpline struct {
 	cubic PiecewiseCubic
 }
@@ -209,6 +211,7 @@ func akimaWeights(slopes []float64, i int) (float64, float64) {
 // See Fritsch, F. N. and Butland, J., "A method for constructing local
 // monotone piecewise cubic interpolants" (1984), SIAM J. Sci. Statist.
 // Comput., 5(2), pp. 300-304.
+// 在 Gonum 的 interp 包中，FritschButland 结构体实现了Fritsch-Butland 单调性保持的一阶导数估计算法，用于构建保持数据单调性的分段三次插值。
 type FritschButland struct {
 	cubic PiecewiseCubic
 }
@@ -373,6 +376,7 @@ func makeCubicSplineSecondDerivativeEquations(a mat.MutableBanded, b mat.Mutable
 // value pairs without providing derivatives. It uses the boundary conditions
 // Y′′(left end ) = Y′′(right end) = 0.
 // See e.g. https://www.math.drexel.edu/~tolya/cubicspline.pdf for details.
+// 在 Gonum 的 interp 包中，NaturalCubic 结构体实现了自然边界条件的三次样条插值，通过在端点处强制二阶导数为零来获得平滑的插值曲线。
 type NaturalCubic struct {
 	cubic PiecewiseCubic
 }
@@ -413,6 +417,7 @@ func (nc *NaturalCubic) Fit(xs, ys []float64) error {
 // continuous value, first and second derivatives, which can be fitted to (X, Y)
 // value pairs without providing derivatives. It uses the boundary conditions
 // Y′(left end ) = Y′(right end) = 0.
+// 在 Gonum 的 interp 包中，ClampedCubic 结构体实现了带端点导数约束的三次样条插值，通过指定边界处的一阶导数来获得更可控的插值结果。
 type ClampedCubic struct {
 	cubic PiecewiseCubic
 }
@@ -462,6 +467,7 @@ func (cc *ClampedCubic) Fit(xs, ys []float64) error {
 // the third derivative of the interpolant is continuous in the first and
 // last interior node.
 // See http://www.cs.tau.ac.il/~turkel/notes/numeng/spline_note.pdf for details.
+// 在 Gonum 的 interp 包中，NotAKnotCubic 结构体实现了非节点边界条件的三次样条插值，通过强制第一个和最后一个内部节点处的三阶导数连续来获得更自然的边界行为。
 type NotAKnotCubic struct {
 	cubic PiecewiseCubic
 }

@@ -9,6 +9,20 @@ import "math"
 // Legendre integrates an unweighted function over finite bounds
 //
 //	int_min^max f(x) dx
+//
+// Hermite 和 Legendre 是两种不同的高斯求积规则，它们在节点选择、权重计算和应用场景上有重要区别。
+// Legendre（勒让德）
+// 正交多项式: 勒让德多项式 $P_n(x)$
+// 积分区间: $[-1, 1]$
+// 权重函数: $w(x) = 1$（常数权重）
+// 使用 Legendre 当：
+//
+//	✅ 积分区间有限 [a, b]
+//	✅ 被积函数没有自然权重
+//	✅ 需要最高代数精度
+//	✅ 处理一般多项式函数
+//
+// 精度要求较低所以可以额外实现 FixedLocationSingler 接口
 type Legendre struct{}
 
 func (l Legendre) FixedLocations(x, weight []float64, min, max float64) {

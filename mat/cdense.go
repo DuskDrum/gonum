@@ -18,7 +18,9 @@ var (
 )
 
 // CDense is a dense matrix representation with complex data.
+// 稠密复数矩阵
 type CDense struct {
+	// 包含矩阵的维度数据和复数元素切片
 	mat cblas128.General
 
 	capRows, capCols int

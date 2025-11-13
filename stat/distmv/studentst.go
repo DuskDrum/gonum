@@ -33,6 +33,7 @@ import (
 //
 // See https://en.wikipedia.org/wiki/Student%27s_t-distribution and
 // http://users.isy.liu.se/en/rt/roth/student.pdf for more information.
+// StudentsT 结构体用于表示多维 Student’s t 分布，并提供生成样本和计算概率密度等功能。
 type StudentsT struct {
 	nu float64
 	mu []float64

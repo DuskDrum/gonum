@@ -9,6 +9,7 @@ import (
 	"gonum.org/v1/gonum/stat/sampleuv"
 )
 
+// ProposalDist 结构体用于在 Metropolis-Hastings 算法中定义候选状态的提议分布及其采样和概率计算规则。
 type ProposalDist struct {
 	Sigma float64
 }

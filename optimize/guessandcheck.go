@@ -14,6 +14,7 @@ var _ Method = (*GuessAndCheck)(nil)
 
 // GuessAndCheck is a global optimizer that evaluates the function at random
 // locations. Not a good optimizer, but useful for comparison and debugging.
+// optimize 包下的 GuessAndCheck 结构体用于实现 基于试探和验证的优化策略，通过评估候选点集合寻找函数下降方向。
 type GuessAndCheck struct {
 	Rander distmv.Rander
 

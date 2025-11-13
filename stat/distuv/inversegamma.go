@@ -21,6 +21,7 @@ import (
 //	β^α / Γ(α) x^(-α-1)e^(-β/x)
 //
 // For more information, see https://en.wikipedia.org/wiki/Inverse-gamma_distribution
+// InverseGamma 结构体用于表示一维逆伽马分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type InverseGamma struct {
 	// Alpha is the shape parameter of the distribution. Alpha must be greater than 0.
 	Alpha float64

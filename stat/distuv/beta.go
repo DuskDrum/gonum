@@ -19,6 +19,7 @@ import (
 //	x^(α-1) * (1-x)^(β-1) * Γ(α+β) / (Γ(α)*Γ(β))
 //
 // For more information, see https://en.wikipedia.org/wiki/Beta_distribution
+// Beta 结构体用于表示一维 Beta 分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Beta struct {
 	// Alpha is the left shape parameter of the distribution. Alpha must be greater
 	// than 0.

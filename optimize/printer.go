@@ -34,6 +34,7 @@ var _ Recorder = (*Printer)(nil)
 
 // Printer writes column-format output to the specified writer as the optimization
 // progresses. By default, it writes to os.Stdout.
+// optimize 包下的 Printer 结构体用于 在优化迭代过程中打印或输出函数值、梯度和步长等信息，便于调试和监控优化进程。
 type Printer struct {
 	Writer          io.Writer
 	HeadingInterval int

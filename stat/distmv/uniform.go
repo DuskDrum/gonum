@@ -12,6 +12,7 @@ import (
 )
 
 // Uniform represents a multivariate uniform distribution.
+// Uniform 结构体用于表示多维均匀分布，并提供生成样本和计算概率密度等功能。
 type Uniform struct {
 	bounds []r1.Interval
 	dim    int

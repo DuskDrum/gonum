@@ -4,6 +4,8 @@
 
 package distuv
 
+// 处理 一维概率分布
+
 import (
 	"math"
 	"math/rand/v2"
@@ -12,6 +14,7 @@ import (
 // Bernoulli represents a random variable whose value is 1 with probability p and
 // value of zero with probability 1-P. The value of P must be between 0 and 1.
 // More information at https://en.wikipedia.org/wiki/Bernoulli_distribution.
+// Bernoulli 结构体用于表示伯努利分布，并提供生成随机样本、计算概率和分位数等功能。
 type Bernoulli struct {
 	P   float64
 	Src rand.Source

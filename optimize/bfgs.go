@@ -21,6 +21,8 @@ var (
 // estimate of the inverse Hessian of the objective function. It exhibits
 // super-linear convergence when in proximity to a local minimum. It has memory
 // cost that is O(n^2) relative to the input dimension.
+// 在 Gonum 的 optimize 包中，BFGS 是实现 Broyden–Fletcher–Goldfarb–Shanno（BFGS）算法 的结构体。
+// BFGS 是 非线性优化中最常用的拟牛顿（Quasi-Newton）方法之一，用于在没有明确 Hessian 的情况下高效求解无约束连续优化问题。
 type BFGS struct {
 	// Linesearcher selects suitable steps along the descent direction.
 	// Accepted steps should satisfy the strong Wolfe conditions.

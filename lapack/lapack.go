@@ -10,16 +10,23 @@ import "gonum.org/v1/gonum/blas"
 type Complex128 interface{}
 
 // Float64 defines the public float64 LAPACK API supported by gonum/lapack.
+// Gonum 中的 LAPACK 包提供了线性代数包（Linear Algebra Package）的 Go 接口，它是 BLAS 的上层扩展，提供了更高级的线性代数算法。
 type Float64 interface {
 	Dgecon(norm MatrixNorm, n int, a []float64, lda int, anorm float64, work []float64, iwork []int) float64
 	Dgeev(jobvl LeftEVJob, jobvr RightEVJob, n int, a []float64, lda int, wr, wi []float64, vl []float64, ldvl int, vr []float64, ldvr int, work []float64, lwork int) (first int)
 	Dgels(trans blas.Transpose, m, n, nrhs int, a []float64, lda int, b []float64, ldb int, work []float64, lwork int) bool
 	Dgelqf(m, n int, a []float64, lda int, tau, work []float64, lwork int)
 	Dgeqp3(m, n int, a []float64, lda int, jpvt []int, tau, work []float64, lwork int)
+	// Dgeqrf 计算一般矩阵的 QR 分解: A = Q * R
 	Dgeqrf(m, n int, a []float64, lda int, tau, work []float64, lwork int)
+	// Dgesvd 计算一般矩阵的 SVD: A = U * Σ * V^T  奇异值分解 (SVD)
 	Dgesvd(jobU, jobVT SVDJob, m, n int, a []float64, lda int, s, u []float64, ldu int, vt []float64, ldvt int, work []float64, lwork int) (ok bool)
+	// Dgetrf LU 分解 Dgetrf 计算一般矩阵的 LU 分解
+	//// A = P * L * U，其中 P 是置换矩阵，L 是下三角，U 是上三角
 	Dgetrf(m, n int, a []float64, lda int, ipiv []int) (ok bool)
+	// Dgetri 使用 LU 分解计算矩阵的逆
 	Dgetri(n int, a []float64, lda int, ipiv []int, work []float64, lwork int) (ok bool)
+	// Dgetrs 使用 LU 分解解线性方程组
 	Dgetrs(trans blas.Transpose, n, nrhs int, a []float64, lda int, ipiv []int, b []float64, ldb int)
 	Dggsvd3(jobU, jobV, jobQ GSVDJob, m, n, p int, a []float64, lda int, b []float64, ldb int, alpha, beta, u []float64, ldu int, v []float64, ldv int, q []float64, ldq int, work []float64, lwork int, iwork []int) (k, l int, ok bool)
 	Dlantr(norm MatrixNorm, uplo blas.Uplo, diag blas.Diag, m, n int, a []float64, lda int, work []float64) float64
@@ -27,7 +34,9 @@ type Float64 interface {
 	Dlansy(norm MatrixNorm, uplo blas.Uplo, n int, a []float64, lda int, work []float64) float64
 	Dlapmr(forward bool, m, n int, x []float64, ldx int, k []int)
 	Dlapmt(forward bool, m, n int, x []float64, ldx int, k []int)
+	// Dorgqr 从 Dgeqrf 的结果生成显式的 Q 矩阵
 	Dorgqr(m, n, k int, a []float64, lda int, tau, work []float64, lwork int)
+	// Dormqr 应用 Q 矩阵到另一个矩阵
 	Dormqr(side blas.Side, trans blas.Transpose, m, n, k int, a []float64, lda int, tau, c []float64, ldc int, work []float64, lwork int)
 	Dorglq(m, n, k int, a []float64, lda int, tau, work []float64, lwork int)
 	Dormlq(side blas.Side, trans blas.Transpose, m, n, k int, a []float64, lda int, tau, c []float64, ldc int, work []float64, lwork int)
@@ -35,10 +44,14 @@ type Float64 interface {
 	Dpbtrf(uplo blas.Uplo, n, kd int, ab []float64, ldab int) (ok bool)
 	Dpbtrs(uplo blas.Uplo, n, kd, nrhs int, ab []float64, ldab int, b []float64, ldb int)
 	Dpocon(uplo blas.Uplo, n int, a []float64, lda int, anorm float64, work []float64, iwork []int) float64
+	// Dpotrf 计算对称正定矩阵的 Cholesky 分解: A = U^T * U 或 A = L * L^T
 	Dpotrf(ul blas.Uplo, n int, a []float64, lda int) (ok bool)
+	// Dpotri 使用 Cholesky 分解计算对称正定矩阵的逆
 	Dpotri(ul blas.Uplo, n int, a []float64, lda int) (ok bool)
+	// Dpotrs 使用 Cholesky 分解解对称正定系统
 	Dpotrs(ul blas.Uplo, n, nrhs int, a []float64, lda int, b []float64, ldb int)
 	Dpstrf(uplo blas.Uplo, n int, a []float64, lda int, piv []int, tol float64, work []float64) (rank int, ok bool)
+	// Dsyev 计算对称矩阵的特征值和特征向量
 	Dsyev(jobz EVJob, uplo blas.Uplo, n int, a []float64, lda int, w, work []float64, lwork int) (ok bool)
 	Dtbtrs(uplo blas.Uplo, trans blas.Transpose, diag blas.Diag, n, kd, nrhs int, a []float64, lda int, b []float64, ldb int) (ok bool)
 	Dtrcon(norm MatrixNorm, uplo blas.Uplo, diag blas.Diag, n int, a []float64, lda int, work []float64, iwork []int) float64

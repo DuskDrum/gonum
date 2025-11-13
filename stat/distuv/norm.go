@@ -17,6 +17,7 @@ import (
 var UnitNormal = Normal{Mu: 0, Sigma: 1}
 
 // Normal represents a normal (Gaussian) distribution (https://en.wikipedia.org/wiki/Normal_distribution).
+// Normal 结构体用于表示一维正态分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Normal struct {
 	Mu    float64 // Mean of the normal distribution
 	Sigma float64 // Standard deviation of the normal distribution

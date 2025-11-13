@@ -19,6 +19,7 @@ import (
 //	β^α / Γ(α) x^(α-1)e^(-βx)
 //
 // For more information, see https://en.wikipedia.org/wiki/Gamma_distribution
+// Gamma 结构体用于表示一维伽马分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Gamma struct {
 	// Alpha is the shape parameter of the distribution. Alpha must be greater
 	// than 0. If Alpha == 1, this is equivalent to an exponential distribution.

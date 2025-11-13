@@ -23,6 +23,7 @@ import (
 // where the samples are generated to be evenly spaced out across the distribution.
 // Note that this means the sample locations are correlated with one another.
 // The distmv.NewUnitUniform function can be used for easy sampling from the unit hypercube.
+// Halton 结构体用于生成多维 Halton 序列样本，实现低差异、均匀覆盖的采样点。
 type Halton struct {
 	Kind HaltonKind
 	Q    distmv.Quantiler

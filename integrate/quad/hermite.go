@@ -15,6 +15,21 @@ import (
 // a squared-exponential weight
 //
 //	int_-inf^inf e^(-x^2) f(x) dx .
+//
+// Hermite 和 Legendre 是两种不同的高斯求积规则，它们在节点选择、权重计算和应用场景上有重要区别。
+//
+// Hermite（埃尔米特）
+//
+//	正交多项式: 埃尔米特多项式 $H_n(x)$
+//	积分区间: $(-\infty, \infty)$
+//	权重函数: $w(x) = e^{-x^2}$（高斯权重）
+//
+// 使用 Hermite 当：
+//
+//	✅ 积分区间无限 (-∞, ∞)
+//	✅ 被积函数包含 $e^{-x^2}$ 因子
+//	✅ 处理高斯相关概率
+//	✅ 量子力学计算
 type Hermite struct{}
 
 func (h Hermite) FixedLocations(x, weight []float64, min, max float64) {

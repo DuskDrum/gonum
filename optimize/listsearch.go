@@ -14,6 +14,7 @@ var _ Method = (*ListSearch)(nil)
 
 // ListSearch finds the optimum location from a specified list of possible
 // optimum locations.
+// optimize 包下的 ListSearch 结构体用于实现 基于候选点列表的搜索策略，通过依次评估预定义点集合寻找函数下降方向以进行优化。
 type ListSearch struct {
 	// Locs is the list of locations to optimize. Each row of Locs is a location
 	// to optimize. The number of columns of Locs must match the dimensions

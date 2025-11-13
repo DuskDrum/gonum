@@ -13,6 +13,7 @@ import (
 )
 
 // Exponential represents the exponential distribution (https://en.wikipedia.org/wiki/Exponential_distribution).
+// Exponential 结构体用于表示一维指数分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type Exponential struct {
 	Rate float64
 	Src  rand.Source

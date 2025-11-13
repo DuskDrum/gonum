@@ -14,6 +14,8 @@ var _ Linesearcher = (*MoreThuente)(nil)
 // References:
 //   - More, J.J. and D.J. Thuente: Line Search Algorithms with Guaranteed Sufficient
 //     Decrease. ACM Transactions on Mathematical Software 20(3) (1994), 286-307
+//
+// optimize 包下的 MoreThuente 结构体用于实现 满足 Wolfe 条件的线搜索算法，通过精确选择步长以确保函数充分下降并保持收敛性。
 type MoreThuente struct {
 	// DecreaseFactor is the constant factor in the sufficient decrease
 	// (Armijo) condition.

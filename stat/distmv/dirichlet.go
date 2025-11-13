@@ -25,6 +25,7 @@ import (
 // where Beta(α) is the multivariate Beta function (see the mathext package).
 //
 // For more information see https://en.wikipedia.org/wiki/Dirichlet_distribution
+// Dirichlet 结构体用于表示多维狄利克雷分布，并提供生成样本和计算概率密度等功能。
 type Dirichlet struct {
 	alpha []float64
 	dim   int

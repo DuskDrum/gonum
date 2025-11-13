@@ -13,6 +13,7 @@ var _ Linesearcher = (*Bisection)(nil)
 // Bisection is a Linesearcher that uses a bisection to find a point that
 // satisfies the strong Wolfe conditions with the given curvature factor and
 // a decrease factor of zero.
+// optimize 包下的 Bisection 结构体用于实现 二分法步长搜索（Bisection Line Search），通过不断折半步长在搜索方向上找到满足条件的最优步长。
 type Bisection struct {
 	// CurvatureFactor is the constant factor in the curvature condition.
 	// Smaller values result in a more exact line search.

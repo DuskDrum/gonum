@@ -23,6 +23,8 @@ import "math"
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/ackley.html (obtained June 2017)
+//
+// optimize/functions 包下的 Ackley 结构体用于提供 Ackley 函数的实现，常作为测试优化算法的多峰无约束优化问题基准函数。
 type Ackley struct{}
 
 func (Ackley) Func(x []float64) float64 {
@@ -44,6 +46,8 @@ func (Ackley) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/bukin6.html (obtained June 2017)
+//
+// optimize/functions 包下的 Bukin6 结构体用于提供 Bukin 函数第6型的实现，常作为二维多峰优化算法的测试基准函数。
 type Bukin6 struct{}
 
 func (Bukin6) Func(x []float64) float64 {
@@ -68,6 +72,8 @@ func (Bukin6) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/camel3.html (obtained December 2017)
+//
+// optimize/functions 包下的 CamelThree 结构体用于提供 Three-Hump Camel 函数的实现，常作为二维无约束优化算法的测试基准函数。
 type CamelThree struct{}
 
 func (c CamelThree) Func(x []float64) float64 {
@@ -96,6 +102,8 @@ func (c CamelThree) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/camel6.html (obtained December 2017)
+//
+// optimize/functions 包下的 CamelSix 结构体用于提供 Six-Hump Camel 函数的实现，常用于测试二维多峰无约束优化算法的性能和收敛性。
 type CamelSix struct{}
 
 func (c CamelSix) Func(x []float64) float64 {
@@ -119,6 +127,8 @@ func (c CamelSix) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/crossit.html (obtained June 2017)
+//
+// optimize/functions 包下的 CrossInTray 结构体用于提供 Cross-in-Tray 函数的实现，常作为二维多峰无约束优化算法的测试基准函数。
 type CrossInTray struct{}
 
 func (CrossInTray) Func(x []float64) float64 {
@@ -146,6 +156,8 @@ func (CrossInTray) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/dixonpr.html (obtained June 2017)
+//
+// optimize/functions 包下的 DixonPrice 结构体用于提供 Dixon–Price 函数的实现，常用于测试多维无约束优化算法的性能和收敛性。
 type DixonPrice struct{}
 
 func (DixonPrice) Func(x []float64) float64 {
@@ -169,6 +181,8 @@ func (DixonPrice) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/drop.html (obtained June 2017)
+//
+// optimize/functions 包下的 DropWave 结构体用于提供 Drop-Wave 函数的实现，常作为二维多峰无约束优化算法的测试基准函数。
 type DropWave struct{}
 
 func (DropWave) Func(x []float64) float64 {
@@ -191,6 +205,8 @@ func (DropWave) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/egg.html (obtained June 2017)
+//
+// optimize/functions 包下的 Eggholder 结构体用于提供 Eggholder 函数的实现，常作为二维多峰无约束优化算法的复杂测试基准函数。
 type Eggholder struct{}
 
 func (Eggholder) Func(x []float64) float64 {
@@ -211,6 +227,8 @@ func (Eggholder) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/grlee12.html (obtained June 2017)
+//
+// optimize/functions 包下的 GramacyLee 结构体用于提供 Gramacy–Lee 函数的实现，常作为二维无约束优化算法的测试基准函数。
 type GramacyLee struct{}
 
 func (GramacyLee) Func(x []float64) float64 {
@@ -232,6 +250,8 @@ func (GramacyLee) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/griewank.html (obtained June 2017)
+//
+// optimize/functions 包下的 Griewank 结构体用于提供 Griewank 函数的实现，常用于测试多维无约束优化算法在多峰复杂函数上的性能。
 type Griewank struct{}
 
 func (Griewank) Func(x []float64) float64 {
@@ -253,6 +273,8 @@ func (Griewank) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/holder.html (obtained June 2017)
+//
+// optimize/functions 包下的 HolderTable 结构体用于提供 Holder Table 函数的实现，常作为二维多峰无约束优化算法的复杂测试基准函数。
 type HolderTable struct{}
 
 func (HolderTable) Func(x []float64) float64 {
@@ -275,6 +297,8 @@ func (HolderTable) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/langer.html (obtained June 2017)
+//
+// optimize/functions 包下的 Langermann2 结构体用于提供 Langermann 函数的二维实现，常用于测试二维多峰无约束优化算法的性能基准。
 type Langermann2 struct{}
 
 func (Langermann2) Func(x []float64) float64 {
@@ -310,6 +334,8 @@ func (Langermann2) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/levy.html (obtained June 2017)
+//
+// optimize/functions 包下的 Levy 结构体用于提供 Levy 函数的多维实现，常用于测试多维无约束优化算法的性能和收敛性。
 type Levy struct{}
 
 func (Levy) Func(x []float64) float64 {
@@ -335,6 +361,8 @@ func (Levy) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/levy13.html (obtained June 2017)
+//
+// optimize/functions 包下的 Levy13 结构体用于提供 Levy 13 函数的实现，常用于测试二维多峰无约束优化算法的性能基准。
 type Levy13 struct{}
 
 func (Levy13) Func(x []float64) float64 {
@@ -360,6 +388,8 @@ func (Levy13) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/rastr.html (obtained June 2017)
+//
+// optimize/functions 包下的 Rastrigin 结构体用于提供 Rastrigin 函数的实现，常用于测试多维多峰无约束优化算法的性能和全局搜索能力。
 type Rastrigin struct{}
 
 func (Rastrigin) Func(x []float64) float64 {
@@ -379,6 +409,8 @@ func (Rastrigin) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/schaffer2.html (obtained June 2017)
+//
+// optimize/functions 包下的 Schaffer2 结构体用于提供 Schaffer 函数 2 的实现，常作为二维多峰无约束优化算法的测试基准函数。
 type Schaffer2 struct{}
 
 func (Schaffer2) Func(x []float64) float64 {
@@ -400,6 +432,8 @@ func (Schaffer2) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/schaffer4.html (obtained June 2017)
+//
+// optimize/functions 包下的 Schaffer4 结构体用于提供 Schaffer 函数 4 的实现，常作为二维多峰无约束优化算法的测试基准函数。
 type Schaffer4 struct{}
 
 func (Schaffer4) Func(x []float64) float64 {
@@ -422,6 +456,8 @@ func (Schaffer4) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/schwef.html (obtained June 2017)
+//
+// optimize/functions 包下的 Schwefel 结构体用于提供 Schwefel 函数的实现，常用于测试多维无约束优化算法在复杂多峰函数上的性能。
 type Schwefel struct{}
 
 func (Schwefel) Func(x []float64) float64 {
@@ -441,6 +477,8 @@ func (Schwefel) Func(x []float64) float64 {
 // Reference:
 //
 //	https://www.sfu.ca/~ssurjano/shubert.html (obtained June 2017)
+//
+// optimize/functions 包下的 Shubert 结构体用于提供 Shubert 函数的实现，常用于测试二维多峰无约束优化算法的性能和全局搜索能力。
 type Shubert struct{}
 
 func (Shubert) Func(x []float64) float64 {

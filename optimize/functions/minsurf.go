@@ -17,6 +17,8 @@ import (
 //
 //	Averick, M.B., Carter, R.G., Moré, J.J., Xue, G.-L.: The Minpack-2 Test
 //	Problem Collection. Preprint MCS-P153-0692, Argonne National Laboratory (1992)
+//
+// optimize/functions 包下的 MinimalSurface 结构体用于提供 最小曲面函数的实现，常用于测试优化算法在二维曲面最小化问题上的性能。
 type MinimalSurface struct {
 	bottom, top  []float64
 	left, right  []float64

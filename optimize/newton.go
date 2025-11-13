@@ -41,6 +41,7 @@ var (
 // If the Hessian matrix cannot be formed explicitly or if the computational
 // cost of its factorization is prohibitive, BFGS or L-BFGS quasi-Newton method
 // can be used instead.
+// optimize 包下的 Newton 结构体用于实现 牛顿法，通过使用函数的梯度和 Hessian 信息迭代快速求解无约束优化问题。
 type Newton struct {
 	// Linesearcher is used for selecting suitable steps along the descent
 	// direction d. Accepted steps should satisfy at least one of the Wolfe,

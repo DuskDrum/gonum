@@ -21,6 +21,7 @@ import (
 // where B is the beta function.
 //
 // For more information, see https://en.wikipedia.org/wiki/F-distribution
+// F 结构体用于表示一维 F 分布，并提供生成随机样本、计算概率密度和分位数等功能。
 type F struct {
 	D1  float64 // Degrees of freedom for the numerator
 	D2  float64 // Degrees of freedom for the denominator
