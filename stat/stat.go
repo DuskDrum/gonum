@@ -1045,6 +1045,8 @@ func KullbackLeibler(p, q []float64) float64 {
 //
 // The lengths of x and y must be equal. If weights is nil then all of the
 // weights are 1. If weights is not nil, then len(x) must equal len(weights).
+// LinearRegression:最小化加权残差平方和
+// minimize: Σ w[i] * (y[i] - α - β*x[i])²  因为 y = β * x + α 所以这里是为了得到等式左右相减的最小值
 func LinearRegression(x, y, weights []float64, origin bool) (alpha, beta float64) {
 	if len(x) != len(y) {
 		panic("stat: slice length mismatch")
@@ -1068,11 +1070,26 @@ func LinearRegression(x, y, weights []float64, origin bool) (alpha, beta float64
 
 		return 0, beta
 	}
-
+	// 下面都是 普通回归（带截距）
+	// 计算x的加权均值和方差
+	// xu = x̄, xv = Var(x)。 方差(variance)，记作 Var(X) ，用于度量随机变量的分散情况
 	xu, xv := MeanVariance(x, weights)
+	// 计算y的加权均值
+	// yu = ȳ
 	yu := Mean(y, weights)
+	// 计算加权协方差
+	// Cov(x,y). 协方差(covariance)，记作 Cov(X,Y) ，用于度量两个随机变量的整体变化幅度和他们之间的关系
 	cov := covarianceMeans(x, y, weights, xu, yu)
+	// 计算回归系数
+	// beta 是斜率：等于x,y的协方差除以x的方差 β = Cov(x,y)/Var(x)
+	// 这个公式 β = Cov(x,y) / Var(x) 是线性回归中斜率的最小二乘估计
+	// 		斜率 = 协方差 / 方差 的几何意义：表示：x变化1个单位时，y平均变化多少个单位
+	// 			β = Cov(x,y)/Var(x) = (Σ(x-x̄)(y-ȳ)) / (Σ(x-x̄)²)
+	// 	协方差：衡量x和y共同变动的方向和强度
+	// 	方差：衡量x本身的变动程度
+	//	比值：将共同变动按x的变动单位归一化
 	beta = cov / xv
+	// alpha 是截距：α = ȳ - β*x̄
 	alpha = yu - beta*xu
 	return alpha, beta
 }
@@ -1187,6 +1204,7 @@ func RNoughtSquared(x, y, weights []float64, beta float64) float64 {
 //
 // If weights is nil then all of the weights are 1. If weights is not nil, then
 // len(x) must equal len(weights).
+// 计算加权算术平均值
 func Mean(x, weights []float64) float64 {
 	if weights == nil {
 		return floats.Sum(x) / float64(len(x))
@@ -1586,12 +1604,19 @@ func Variance(x, weights []float64) float64 {
 // If weights is nil then all of the weights are 1. If weights is not nil, then
 // len(x) must equal len(weights).
 // When weights sum to 1 or less, a biased variance estimator should be used.
+// 计算加权样本均值和样本方差的方法，返回的两个响应是：
+// 1.mean: 加权样本均值 ； 2. variance: 加权样本方差（无偏估计）
 func MeanVariance(x, weights []float64) (mean, variance float64) {
 	var (
 		unnormalisedVariance float64
 		sumWeights           float64
 	)
+	// 调用内部函数计算：
+	// mean: 加权均值
+	// unnormalisedVariance: ∑ wᵢ(xᵢ - mean)²
+	// sumWeights: ∑ wᵢ
 	mean, unnormalisedVariance, sumWeights = meanUnnormalisedVarianceSumWeights(x, weights)
+	// 计算无偏方差：分子 / (权重和 - 1)
 	return mean, unnormalisedVariance / (sumWeights - 1)
 }
 
